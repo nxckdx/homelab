@@ -48,4 +48,6 @@ proxmox_api:
 Additionally, review the **`variables.yaml`** file for necessary configurations.
 
 # **Start the Deployment**
+```bash
     terragrunt apply auto-approve
+```
