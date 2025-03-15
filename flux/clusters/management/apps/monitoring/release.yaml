@@ -1,15 +1,58 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: prometheus-operator-crds
+  name: kube-prometheus-stack
   namespace: monitoring
 spec:
   chart:
     spec:
-      chart: prometheus-operator-crds
+      chart: kube-prometheus-stack
       sourceRef:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      version: "18.0.1"
+      version: "69.8.2"
   interval: 1h0m0s
+  values:
+    alertmanager:
+      alertmanagerSpec:
+        storage:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: csi-rbd-sc
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 5Gi
+    thanosRuler:
+      thanosRulerSpec:
+        volumeClaimTemplate:
+          spec:
+            storageClassName: csi-rbd-sc
+            accessModes: ["ReadWriteOnce"]
+            resources:
+              requests:
+                storage: 5Gi
+    prometheus:
+      prometheusSpec:
+        storageSpec:
+          volumeClaimTemplate:
+            spec:
+              storageClassName: csi-rbd-sc
+              accessModes: ["ReadWriteOnce"]
+              resources:
+                requests:
+                  storage: 35Gi
+    grafana:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - "grafana.kube.mgmt.nickdann.net"
+        path: /
+        tls:
+          - secretName: grafana-ssl-tls
+            hosts:
+              - "grafana.kube.mgmt.nickdann.net"
