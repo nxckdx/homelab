@@ -39,7 +39,7 @@ EOT
 echo 'plugin: cloud.terraform.terraform_provider' > ${get_working_dir()}/inventory.yaml
 ansible-inventory -i ${get_working_dir()}/inventory.yaml --list
 
-ansible-playbook -i ${get_working_dir()}/inventory.yaml ${get_repo_root()}/ansible-k8s/playbook.yaml
+ansible-playbook -i ${get_working_dir()}/inventory.yaml ${get_repo_root()}/ansible-k8s/playbook.yaml --vault-password-file ${get_repo_root()}/.vault_pass
 EOT
     ]
   }

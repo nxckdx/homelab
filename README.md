@@ -31,19 +31,25 @@ You need to install the following packages for this project:
 - **Terraform**  
 - **Ansible**  
 - **Terragrunt** 
-- **Kubectl**  
+- **Kubectl**
+- **SOPS**  
+- **age**  
 
 Make sure to review all the configuration files, including **`terragrunt.hcl`**.  
 
 You will also need an **encrypted `secret.yaml`** along with a **`.vault_pass`** file.  
 
-The **`secret.yaml`** must include the API credentials for your Proxmox environment:  
+The **`secret.yaml`** must include the API credentials for your Proxmox environment and your age-keys:  
 
 ```yaml
 proxmox_api:
     url: "https://carlos.local.nickdann.net:8006/api2/json"
     token_id: "root@pam!packer"
     token_secret: "secret"
+
+age:
+  private: private
+  public: public
 ```
 
 Additionally, review the **`variables.yaml`** file for necessary configurations.

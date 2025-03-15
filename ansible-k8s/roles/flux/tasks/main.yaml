@@ -7,6 +7,12 @@
   environment:
     KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
 
+- name: Create FluxCD sops age Secret
+  shell: |
+    kubectl create secret generic sops-age --namespace flux-system --from-literal=age.agekey={{ age.private }}
+  environment:
+    KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+
 - name: Create Flux Secret with SSH Key
   shell: |
     flux create secret git flux-system \
@@ -43,6 +49,10 @@
       name: flux-system
       namespace: flux-system
     spec:
+      decryption:
+        provider: sops
+        secretRef:
+          name: sops-age
       interval: 5m
       path: "./flux/clusters/management/apps/flux-system"
       prune: true
