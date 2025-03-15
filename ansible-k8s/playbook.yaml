@@ -1,26 +1,26 @@
-# - name: Wait for SSH to be available on all nodes
-#   hosts: all
-#   gather_facts: false
-#   tasks:
-#     - name: Wait 300 seconds, but only start checking after 15 seconds
-#       ansible.builtin.wait_for_connection:
-#         delay: 15
-#         timeout: 300
+- name: Wait for SSH to be available on all nodes
+  hosts: all
+  gather_facts: false
+  tasks:
+    - name: Wait 300 seconds, but only start checking after 15 seconds
+      ansible.builtin.wait_for_connection:
+        delay: 15
+        timeout: 300
 
-# - hosts: all
-#   become: true
-#   roles:
-#     - k8s
+- hosts: all
+  become: true
+  roles:
+    - k8s
 
-# - hosts: master
-#   become: true
-#   roles:
-#     - k8s-master
+- hosts: master
+  become: true
+  roles:
+    - k8s-master
 
-# - hosts: worker
-#   become: true
-#   roles:
-#     - k8s-worker
+- hosts: worker
+  become: true
+  roles:
+    - k8s-worker
 
 - hosts: localhost
   become: true
