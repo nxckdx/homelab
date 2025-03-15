@@ -24,7 +24,6 @@ This setup consists of **three main steps**:
 
 ---
 
-
 # **Requirements**  
 You need to install the following packages for this project:  
 - **Packer**  
@@ -46,6 +45,8 @@ proxmox_api:
 ```
 
 Additionally, review the **`variables.yaml`** file for necessary configurations.
+
+---
 
 # **Start the Deployment**
 ```bash
