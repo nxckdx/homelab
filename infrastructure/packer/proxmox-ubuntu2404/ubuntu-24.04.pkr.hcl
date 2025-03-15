@@ -13,6 +13,25 @@ packer {
   }
 }
 
+variable "template_name" {
+  type = string
+}
+
+variable "proxmox_node" {
+  type = string
+}
+
+variable "vmid" {
+  type = string
+}
+
+variable "tags" {
+  type = string
+}
+
+variable "template_description" {
+  type = string
+}
 
 variable "proxmox_api_url" {
   type = string
@@ -38,10 +57,11 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
     insecure_skip_tls_verify = true
     
     # VM General Settings
-    node = "carlos"
-    vm_id = "400"
+    node = "${var.proxmox_node}"
+    vm_id = "${var.vmid}"
     vm_name = "ubuntu-server-noble-numbat"
-    template_description = "Noble Numbat"
+    template_description = "${var.template_description}"
+    tags = "${var.tags}"
 
     boot_iso {
         # VM OS Settings
@@ -56,19 +76,19 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
         unmount = true
     }
 
-    template_name        = "packer-ubuntu2404"
+    template_name        = "${var.template_name}"
 
     # VM System Settings
     qemu_agent = true
 
     # VM Hard Disk Settings
-    scsi_controller = "virtio-scsi-pci"
+    scsi_controller = "virtio-scsi-single"
 
     disks {
         disk_size = "32G"
         format = "raw"
         storage_pool = "local-lvm"
-        type = "virtio"
+        type = "scsi"
     }
 
     # VM CPU Settings
@@ -103,7 +123,7 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
     communicator = "ssh"
 
     # PACKER Autoinstall Settings
-    http_directory = "./http" 
+    http_directory = "${path.root}/http" 
     #http_bind_address = "10.1.149.166"
     # (Optional) Bind IP Address and Port
     # http_port_min = 8802
@@ -134,6 +154,8 @@ build {
             "while [ ! -f /var/lib/cloud/instance/boot-finished ]; do echo 'Waiting for cloud-init...'; sleep 1; done",
             "sudo rm /etc/ssh/ssh_host_*",
             "sudo truncate -s 0 /etc/machine-id",
+            "sudo apt update -y",
+            "sudo apt upgrade -y",
             "sudo apt -y autoremove --purge",
             "sudo apt -y clean",
             "sudo apt -y autoclean",
@@ -146,7 +168,7 @@ build {
 
     # Provisioning the VM Template for Cloud-Init Integration in Proxmox #2
     provisioner "file" {
-        source = "files/99-pve.cfg"
+        source = "${path.root}/files/99-pve.cfg"
         destination = "/tmp/99-pve.cfg"
     }
 

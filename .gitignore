@@ -1,2 +1,6 @@
 ./packer_cache
 *.pkrvars.hcl
+*.terraform.lock.hcl
+.vault_pass
+.terragrunt-cache/
+kubeconfig

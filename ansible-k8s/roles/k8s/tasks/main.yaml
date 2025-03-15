@@ -1,0 +1,193 @@
+- name: Installiere Pakete
+  apt:
+    name: 
+    - wget
+    - apt-transport-https
+    - ca-certificates
+    - curl
+    - gpg
+    - nfs-common
+    - open-iscsi
+    - jq
+    state: present
+
+- name: blacklist multipathd
+  copy:
+    dest: /etc/multipath.conf
+    content: |
+      blacklist {
+        devnode "^sd[a-z0-9]+"
+      }
+
+- name: Restart multipathd
+  systemd:
+    name: multipathd
+    state: restarted
+    daemon_reload: yes
+
+- name: Ensure iscsi_tcp module is loaded
+  ansible.builtin.modprobe:
+    name: iscsi_tcp
+    state: present
+
+- name: Ensure dm_crypt module is loaded
+  ansible.builtin.modprobe:
+    name: dm_crypt
+    state: present
+
+- name: Aktiviere den iscsid
+  systemd:
+    name: iscsid
+    enabled: yes
+    state: started
+    daemon_reload: yes
+
+- name: Aktiviere den open-iscsi
+  systemd:
+    name: open-iscsi
+    enabled: yes
+    state: started
+    daemon_reload: yes
+
+- name: Set sysctl params required by setup
+  copy:
+    dest: /etc/sysctl.d/k8s.conf
+    content: |
+      net.ipv4.ip_forward = 1
+  notify: Apply sysctl params
+
+- name: Create kernel modules file for Kubernetes
+  copy:
+    dest: /etc/modules-load.d/k8s.conf
+    content: |
+      overlay
+      br_netfilter
+
+- name: Ensure overlay module is loaded
+  ansible.builtin.modprobe:
+    name: overlay
+    state: present
+
+- name: Ensure br_netfilter module is loaded
+  ansible.builtin.modprobe:
+    name: br_netfilter
+    state: present
+
+- name: Update apt package index
+  apt:
+    update_cache: yes
+
+- name: Create the keyring directory for Kubernetes
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Add Kubernetes APT repository
+  ansible.builtin.deb822_repository:
+    name: kubernetes
+    types: [deb]
+    uris: "https://pkgs.k8s.io/core:/stable:/v1.32/deb/"
+    signed_by: "https://pkgs.k8s.io/core:/stable:/v1.32/deb/Release.key"
+    suites: [/]
+    state: present
+    enabled: yes
+
+- name: Install kubeadm, kubelet, and kubectl
+  apt:
+    name:
+      - kubeadm
+      - kubelet
+      - kubectl
+    state: present
+    update_cache: yes
+
+- name: Hold kubeadm
+  ansible.builtin.dpkg_selections:
+    name: kubeadm
+    selection: hold
+
+- name: Hold kubelet
+  ansible.builtin.dpkg_selections:
+    name: kubelet
+    selection: hold
+
+- name: Hold kubectl
+  ansible.builtin.dpkg_selections:
+    name: kubectl
+    selection: hold
+
+- name: Disable swap (necessary for Kubernetes)
+  command: swapoff -a
+  ignore_errors: true
+
+- name: Ensure swap is disabled permanently
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^.*swap.*'
+    state: absent
+
+- name: Download Docker GPG key
+  ansible.builtin.get_url:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    dest: /etc/apt/keyrings/docker.asc
+    mode: '0644'
+
+- name: Add Docker Repository
+  copy:
+    dest: /etc/apt/sources.list.d/docker.list
+    content: |
+      deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
+
+- name: Update apt package index
+  apt:
+    update_cache: yes
+
+- name: Install containerd
+  apt:
+    name:
+      - containerd.io
+    state: present
+
+- name: Create /etc/containerd directory
+  ansible.builtin.file:
+    path: /etc/containerd
+    state: directory
+    mode: '0755'
+
+- name: Generate containerd default config
+  ansible.builtin.command:
+    cmd: containerd config default
+  register: containerd_config_output
+
+- name: Write containerd config to /etc/containerd/config.toml
+  ansible.builtin.copy:
+    content: "{{ containerd_config_output.stdout }}"
+    dest: /etc/containerd/config.toml
+    mode: '0644'
+
+- name: Update SystemdCgroup in containerd config.toml
+  ansible.builtin.lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: '^(\s*)SystemdCgroup = false'
+    line: '\1SystemdCgroup = true'
+    backrefs: yes
+
+- name: Overriding the sandbox (pause) image
+  ansible.builtin.lineinfile:
+    path: /etc/containerd/config.toml
+    regexp: '^(\s*)sandbox_image = ".*"$'
+    line: '\1sandbox_image = "registry.k8s.io/pause:3.10"'
+    backrefs: yes
+
+- name: Restart containerd service
+  ansible.builtin.systemd:
+    name: containerd
+    state: restarted
+
+- name: Ensure net.ipv4.ip_forward is set to 1
+  sysctl:
+    name: net.ipv4.ip_forward
+    value: "1"
+    state: present
+    reload: yes

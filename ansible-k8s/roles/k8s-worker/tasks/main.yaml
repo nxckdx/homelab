@@ -1,0 +1,15 @@
+- name: Check if node is already part of the cluster
+  shell: "kubectl --kubeconfig /etc/kubernetes/admin.conf get nodes --no-headers | awk '{print $1}' | grep {{ inventory_hostname }}"
+  delegate_to: "{{ groups['master'][0] }}"
+  register: node_check
+  ignore_errors: true
+
+- name: Get kubeadm join command from master
+  shell: kubeadm token create --print-join-command
+  register: kubeadm_join_cmd
+  when: node_check.rc != 0
+  delegate_to: "{{ groups['master'][0] }}"
+
+- name: Join Kubernetes cluster
+  command: "{{ kubeadm_join_cmd.stdout }}"
+  when: node_check.rc != 0
