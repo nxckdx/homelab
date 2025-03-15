@@ -16,7 +16,7 @@ This setup consists of **three main steps**:
 
 > [!NOTE]  
 > I created the Ansible roles myself, referencing the **official Kubernetes kubeadm documentation**.  
-> The Installed CNI is **Flannel**.  
+> The installed CNI is **Flannel**.  
 
 > [!CAUTION]  
 > Currently, this setup only supports **a single control plane**.  
