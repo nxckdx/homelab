@@ -7,7 +7,6 @@
         delay: 15
         timeout: 300
 
-
 - hosts: all
   become: true
   roles:
@@ -22,3 +21,8 @@
   become: true
   roles:
     - k8s-worker
+
+- hosts: localhost
+  become: true
+  roles:
+    - flux

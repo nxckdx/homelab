@@ -1,0 +1,43 @@
+- name: Download FluxCD CLI
+  shell: curl -s https://fluxcd.io/install.sh | bash
+
+- name: Install FluxCD components in Kubernetes
+  shell: |
+    flux install --components-extra=image-reflector-controller,image-automation-controller
+  environment:
+    KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+
+- name: Create Flux Secret with SSH Key
+  shell: |
+    flux create secret git flux-system \
+      --url=ssh://git@github.com/nxckdx/homelab.git \
+      --private-key-file=/home/nick/.ssh/id_ed25519
+  environment:
+    KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+
+- name: Create FluxCD GitRepository
+  shell: |
+    cat <<EOF | kubectl apply -f -
+    apiVersion: source.toolkit.fluxcd.io/v1
+    kind: GitRepository
+    metadata:
+      name: flux-system
+      namespace: flux-system
+    spec:
+      interval: 1m
+      url: ssh://git@github.com/nxckdx/homelab.git
+      ref:
+        branch: main
+      secretRef:
+        name: flux-system
+    EOF
+  environment:
+    KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+
+- name: Create FluxCD Kustomization
+  shell: |
+    cat <<EOF | kubectl apply -f -
+
+    EOF
+  environment:
+    KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"

@@ -30,7 +30,8 @@ You need to install the following packages for this project:
 - **Packer**  
 - **Terraform**  
 - **Ansible**  
-- **Terragrunt**  
+- **Terragrunt** 
+- **Kubectl**  
 
 Make sure to review all the configuration files, including **`terragrunt.hcl`**.  
 
