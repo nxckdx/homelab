@@ -1,0 +1,47 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: harbor
+  namespace: harbor
+spec:
+  chart:
+    spec:
+      chart: harbor
+      sourceRef:
+        kind: HelmRepository
+        name: harbor
+        namespace: flux-system
+      version: "1.16.2"
+  interval: 1h0m0s
+  values:
+    expose:
+      tls:
+        certSource: secret
+        secret:
+          secretName: harbor-tls-ssl
+      ingress:
+        hosts:
+          core: harbor.kube.mgmt.nickdann.net
+        className: nginx
+        annotations:
+          ingress.kubernetes.io/ssl-redirect: "true"
+          ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.ingress.kubernetes.io/ssl-redirect: "true"
+          nginx.ingress.kubernetes.io/proxy-body-size: "0"
+          nginx.org/client-max-body-size: "0"
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+    externalURL: https://harbor.kube.mgmt.nickdann.net
+    persistence:
+      persistentVolumeClaim:
+        registry:
+          storageClass: csi-rbd-sc
+          size: 30Gi
+        jobservice:
+          jobLog:
+            storageClass: csi-rbd-sc
+        database:
+          storageClass: csi-rbd-sc
+        redis:
+          storageClass: csi-rbd-sc
+        trivy:
+          storageClass: csi-rbd-sc
