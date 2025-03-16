@@ -184,6 +184,8 @@ spec:
   interval: 5m
   path: "./flux/clusters/management/apps/gitlab"
   prune: true
+  dependsOn:
+  - name: cert-manager
   sourceRef:
     kind: GitRepository
     name: flux-system
