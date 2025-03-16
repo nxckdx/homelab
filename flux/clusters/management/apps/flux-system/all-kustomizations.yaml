@@ -11,6 +11,8 @@ spec:
   interval: 5m
   path: "./flux/clusters/management/apps/metallb-system"
   prune: true
+  dependsOn:
+  - name: dependencies-crds
   sourceRef:
     kind: GitRepository
     name: flux-system
