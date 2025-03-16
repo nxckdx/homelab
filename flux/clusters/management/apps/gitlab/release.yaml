@@ -30,24 +30,16 @@ spec:
         minio:
           name: minio.kube.mgmt.nickdann.net
           https: false
+        kas:
+          name: kas.kube.mgmt.nickdann.net
+          https: false
       ingress:
         class: nginx
         configureCertmanager: false
-        annotations:
-          cert-manager.io/cluster-issuer: "cloudflare-issuer"
         enabled: true
         tls:
           enabled: true
           secretName: gitlab-tls
-        minio:
-          enabled: true
-          tls:
-            secretName: minio-tls
-        kas:
-          enabled: false
-        registry:
-          tls:
-            secretName: registry-tls
     certmanager:
       installCRDs: false
       install: false
