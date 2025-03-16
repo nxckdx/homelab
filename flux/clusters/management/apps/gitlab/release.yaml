@@ -48,17 +48,11 @@ spec:
           secretName: gitlab-tls
       minio:
         enabled: true
-        tls:
-          enabled: true
-          secretName: minio-tls
+        tlsSecret: minio-tls
       kas:
-        tls:
-          enabled: true
-          secretName: kas-tls
+        tlsSecret: kas-tls
       registry:
-        tls:
-          enabled: true
-          secretName: registry-tls
+        tlsSecret: registry-tls
     certmanager:
       installCRDs: false
       install: false
