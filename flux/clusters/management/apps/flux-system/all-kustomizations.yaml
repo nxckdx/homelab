@@ -17,6 +17,21 @@ spec:
 
 ---
 
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: dependencies-crds
+  namespace: flux-system
+spec:
+  interval: 5m0s
+  path: "./flux/clusters/management/dependencies/crds"
+  prune: false
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+
+---
+
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
@@ -30,6 +45,8 @@ spec:
   interval: 5m
   path: "./flux/clusters/management/apps/nginx-ingress"
   prune: true
+  dependsOn:
+  - name: dependencies-crds
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -68,6 +85,8 @@ spec:
   interval: 5m
   path: "./flux/clusters/management/apps/cert-manager"
   prune: true
+  dependsOn:
+  - name: dependencies-crds
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -87,6 +106,8 @@ spec:
   interval: 5m
   path: "./flux/clusters/management/apps/monitoring"
   prune: true
+  dependsOn:
+  - name: dependencies-crds
   sourceRef:
     kind: GitRepository
     name: flux-system
