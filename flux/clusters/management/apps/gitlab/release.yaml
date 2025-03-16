@@ -14,6 +14,8 @@ spec:
       version: "8.9.2"
   interval: 1h0m0s
   values:
+    certmanager-issuer:
+      email: nick@nickdann.net
     nginx-ingress:
       enabled: false
     global:
