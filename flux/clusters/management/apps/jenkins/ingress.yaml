@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: jenkins
+  annotations:
+    cert-manager.io/cluster-issuer: "cloudflare-issuer"
+  namespace: jenkins
+spec:
+  rules:
+    - host: jenkins.kube.mgmt.nickdann.net
+      http:
+        paths:
+          - backend:
+              service:
+                port:
+                  number: 8080
+                name: jenkins-service
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - jenkins.kube.mgmt.nickdann.net
+      secretName: jenkins-tls
+  ingressClassName: nginx
