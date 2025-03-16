@@ -36,6 +36,7 @@ spec:
           name: pages.kube.mgmt.nickdann.net
           https: false
       ingress:
+        class: nginx
         configureCertmanager: false
         annotations:
           cert-manager.io/cluster-issuer: "cloudflare-issuer"
