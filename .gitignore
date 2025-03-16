@@ -4,3 +4,4 @@
 .vault_pass
 .terragrunt-cache/
 kubeconfig
+gitlab-chart/
