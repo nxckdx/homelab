@@ -25,6 +25,9 @@ spec:
         registry:
           name: registry.kube.mgmt.nickdann.net
           https: false
+        minio:
+          name: minio.kube.mgmt.nickdann.net
+          https: false
         smartcard:
           name: smartcard.kube.mgmt.nickdann.net
         kas:
@@ -41,7 +44,7 @@ spec:
           enabled: true
           secretName: gitlab-tls
       minio:
-        enabled: false
+        enabled: true
     certmanager:
       installCRDs: false
       install: false
