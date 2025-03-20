@@ -5,3 +5,5 @@
 .terragrunt-cache/
 kubeconfig
 gitlab-chart/
+.ansible/
+.vscode/
