@@ -75,11 +75,6 @@ resource "proxmox_vm_qemu" "vm" {
         }
     }
 
-    # ciuser      = "ansible"
-    # sshkeys     = <<-EOT
-    #                     ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIE4Z77wdOXk/Znht+ulIhfZF11j3BXYbhhNUJsML9sHu nick@nick-pc
-    #                 EOT
-
     os_type     = "cloud-init"
     ipconfig0   = "ip=${each.value.network.ip},gw=${each.value.network.gateway}"
     nameserver  = each.value.network.nameserver
