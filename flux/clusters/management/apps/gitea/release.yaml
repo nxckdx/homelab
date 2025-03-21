@@ -15,11 +15,6 @@ spec:
   interval: 1h0m0s
   timeout: 20m0s
   values:
-    gitea:
-      config:
-        cache:
-          ADAPTER: redis
-          HOST: "gitea-redis-master:6379"
     service:
       ssh:
         type: LoadBalancer
@@ -45,6 +40,6 @@ spec:
     postgresql:
       enabled: true
     redis-cluster:
-      enabled: false
-    redis:
       enabled: true
+    redis:
+      enabled: false
