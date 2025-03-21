@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: gitlab
         namespace: flux-system
-      version: "8.9.2"
+      version: "8.10.0"
   interval: 1h0m0s
   timeout: 20m0s
   values:
