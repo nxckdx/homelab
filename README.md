@@ -3,7 +3,7 @@ This is my **Management Kubernetes Cluster** running in my homelab.
 
 I have two additional Kubernetes clusters running in my **3-node Proxmox environment** (the nodes are called `pve`, `carlos`, and `jochen`). These clusters are managed by the **Management Cluster** described in this repository.
 
-In this cluster, I have documented only **Rancher, Jenkins, and my private GitLab instance**, which are automatically deployed using **FluxCD**. The other clusters are also managed via **FluxCD**, but they use the **GitLab instance from this Management Cluster** as their repository.
+In this cluster, I have documented only **Rancher, Jenkins, and my private Gitea instance**, which are automatically deployed using **FluxCD**. The other clusters are also managed via **FluxCD**, but they use the **Gitea instance from this Management Cluster** as their repository.
 
 If you're interested in the **detailed setup**, feel free to reach out to me 😉.
 
