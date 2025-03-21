@@ -35,3 +35,11 @@ spec:
     persistence:
       storageClass: csi-rbd-sc
       size: 25Gi
+    postgresql-ha:
+      enabled: false
+    postgresql:
+      enabled: true
+    redis-cluster:
+      enabled: false
+    redis:
+      enabled: true
