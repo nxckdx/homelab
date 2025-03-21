@@ -13,6 +13,7 @@ spec:
         namespace: flux-system
       version: "1.16.2"
   interval: 1h0m0s
+  timeout: 20m0s
   values:
     expose:
       tls:

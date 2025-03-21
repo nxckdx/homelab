@@ -5,6 +5,7 @@ metadata:
   namespace: nginx-ingress
 spec:
   interval: 10m0s
+  timeout: 20m0s
   chartRef:
     kind: OCIRepository
     name: nginx-ingress
