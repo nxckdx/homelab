@@ -1,0 +1,48 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea
+  namespace: gitea
+spec:
+  selector:
+    app: gitea
+  type: ClusterIP
+  ports:
+  - name: gitea
+    protocol: TCP
+    port: 3000
+    targetPort: 3000
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgresql
+  namespace: gitea
+spec:
+  selector:
+    app: postgresql
+  type: ClusterIP
+  ports:
+  - name: postgresql
+    protocol: TCP
+    port: 5432
+    targetPort: 5432
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: gitea-ssh
+  namespace: gitea
+spec:
+  selector:
+    app: gitea
+  type: LoadBalancer
+  ports:
+  - name: gitea
+    protocol: TCP
+    port: 22
+    targetPort: 22
