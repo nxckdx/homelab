@@ -20,6 +20,7 @@ spec:
       ingressClassName: nginx
       extraAnnotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        nginx.org/websocket-services: "rancher-latest"
       tls:
         source: secret
     replicas: 2
