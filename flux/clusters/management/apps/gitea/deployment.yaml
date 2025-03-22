@@ -38,15 +38,6 @@ spec:
           successThreshold: 1
           failureThreshold: 3
           periodSeconds: 10
-        # readinessProbe:
-        #   httpGet:
-        #     path: /_status/healthz
-        #     port: 3000
-        #   initialDelaySeconds: 5
-        #   timeoutSeconds: 2
-        #   successThreshold: 1
-        #   failureThreshold: 3
-        #   periodSeconds: 10
         env:
           - name: GITEA__database__NAME
             valueFrom:

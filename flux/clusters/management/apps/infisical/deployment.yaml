@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  infisical
+  namespace: infisical
+  labels:
+    app:  infisical
+spec:
+  selector:
+    matchLabels:
+      app: infisical
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  infisical
+    spec:
+      containers:
+      - name:  infisical
+        image:  infisical/infisical:latest-postgres
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 800m
+            memory: 2Gi
+        envFrom:
+          - secretRef:
+              name: all-secrets
+        env:
+          - name: NODE_ENV
+            value: "production"
+        ports:
+        - containerPort:  8080
+          name:  infisical
+      restartPolicy: Always

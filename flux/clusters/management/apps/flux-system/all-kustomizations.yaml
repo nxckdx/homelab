@@ -208,3 +208,22 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+
+---
+
+apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
+kind: Kustomization
+metadata:
+  name: infisical
+  namespace: flux-system
+spec:
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  interval: 5m
+  path: "./flux/clusters/management/apps/infisical"
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
