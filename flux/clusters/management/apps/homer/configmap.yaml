@@ -82,7 +82,7 @@ data:
         icon: "fas fa-network-wired"
         items:
           - name: "Rancher"
-            icon: "icons/rancher.png"
+            logo: "icons/rancher.png"
             subtitle: "Kubernetes management"
             tag: "cluster"
             url: "https://rancher.kube.mgmt.nickdann.net/"
