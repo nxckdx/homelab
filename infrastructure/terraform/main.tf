@@ -28,10 +28,10 @@ locals {
   #   ]
   # ])
 
-  cluster_map = flatten([
+cluster_map = flatten([
   for cluster in var.kubernetes.cluster : [
     for role, hosts in (
-      cluster.nodes.all != null ?
+      contains(keys(cluster.nodes), "all") ?
       {
         master = cluster.nodes.all,
         worker = cluster.nodes.all
@@ -101,15 +101,31 @@ resource "proxmox_vm_qemu" "vm" {
     skip_ipv6   = true
 }
 
+# resource "ansible_host" "host" {
+#   for_each = { for entry in local.cluster_map : entry.name => entry }
+
+#   name   = each.value.name
+#   groups = [each.value.group]
+
+#   variables = {
+#     ansible_user = "nick"
+#     ansible_host = split("/", local.vm_map[each.value.name].network.ip)[0]
+#     ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+#   }
+# }
+
 resource "ansible_host" "host" {
-  for_each = { for entry in local.cluster_map : entry.name => entry }
+  for_each = {
+    for entry in local.cluster_map :
+    "${entry.name}-${entry.group}" => entry
+  }
 
   name   = each.value.name
   groups = [each.value.group]
 
   variables = {
-    ansible_user = "nick"
-    ansible_host = split("/", local.vm_map[each.value.name].network.ip)[0]
-    ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    ansible_user             = "nick"
+    ansible_host             = split("/", local.vm_map[each.value.name].network.ip)[0]
+    ansible_ssh_common_args  = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
   }
 }
