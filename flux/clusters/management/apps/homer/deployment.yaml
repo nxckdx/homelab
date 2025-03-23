@@ -1,0 +1,56 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  homer
+  namespace: homer
+  labels:
+    app:  homer
+  annotations:
+    reloader.stakater.com/auto: "true"
+spec:
+  selector:
+    matchLabels:
+      app: homer
+  replicas: 2
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  homer
+    spec:
+      containers:
+      - name:  homer
+        image:  b4bz/homer:v25.03.3
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 800m
+            memory: 400Mi
+        livenessProbe:
+          tcpSocket:
+            port: 8080
+          initialDelaySeconds: 5
+          timeoutSeconds: 5
+          successThreshold: 1
+          failureThreshold: 3
+          periodSeconds: 10
+        env:
+          - name: INIT_ASSETS
+            value: "1"
+        ports:
+        - containerPort:  8080
+          name:  homer
+        volumeMounts:
+        - name: homer-config
+          mountPath: /www/assets
+      volumes:
+        - name: homer-config
+          persistentVolumeClaim:
+            claimName: homer-config
+      restartPolicy: Always

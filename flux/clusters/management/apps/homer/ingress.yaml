@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: homer
+  annotations:
+    cert-manager.io/cluster-issuer: "cloudflare-issuer"
+  namespace: homer
+spec:
+  rules:
+    - host: homer.kube.mgmt.nickdann.net
+      http:
+        paths:
+          - backend:
+              service:
+                port:
+                  number: 8080
+                name: homer
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - homer.kube.mgmt.nickdann.net
+      secretName: homer-http-tls
+  ingressClassName: nginx
