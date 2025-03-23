@@ -134,7 +134,7 @@ data:
             target: "_blank"
           - name: "Proxmox Mail Gateway"
             logo: "assets/icons/proxmox.png"
-            subtitle: "Mail Gateway and Spam scanner"
+            subtitle: "Mail Gateway & Spam scanner"
             tag: "security"
             url: "https://mailgateway.local.nickdann.net:8006/"
             target: "_blank"
