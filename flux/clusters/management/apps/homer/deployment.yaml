@@ -55,8 +55,14 @@ spec:
         volumeMounts:
         - name: homer-config
           mountPath: /www/assets
+        - name: homer-config-yml
+          mountPath: /www/assets/config.yml
+          subPath: config.yml
       volumes:
         - name: homer-config
           persistentVolumeClaim:
             claimName: homer-config
+        - name: homer-config-yml
+          configMap:
+            name: config
       restartPolicy: Always
