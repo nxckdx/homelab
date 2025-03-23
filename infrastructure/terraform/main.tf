@@ -16,35 +16,23 @@ terraform {
 locals {
   vm_map = { for vm_instance in var.vm : vm_instance.name => vm_instance }
 
-  # Kubernetes Cluster Mapping in eine flache Liste umwandeln
-  # cluster_map = flatten([
-  #   for cluster in var.kubernetes.cluster : [
-  #     for role, hosts in cluster.nodes : [
-  #       for host in hosts : {
-  #         name  = host
-  #         group = role
-  #       }
-  #     ]
-  #   ]
-  # ])
-
-cluster_map = flatten([
-  for cluster in var.kubernetes.cluster : [
-    for role, hosts in (
-      contains(keys(cluster.nodes), "all") ?
-      {
-        master = cluster.nodes.all,
-        worker = cluster.nodes.all
-      } :
-      cluster.nodes
-    ) : [
-      for host in hosts : {
-        name  = host
-        group = role
-      }
+  cluster_map = flatten([
+    for cluster in var.kubernetes.cluster : [
+      for role, hosts in (
+        contains(keys(cluster.nodes), "all") ?
+        {
+          master = cluster.nodes.all,
+          worker = cluster.nodes.all
+        } :
+        cluster.nodes
+      ) : [
+        for host in hosts : {
+          name  = host
+          group = role
+        }
+      ]
     ]
-  ]
-])
+  ])
 }
 
 resource "proxmox_vm_qemu" "vm" {
@@ -100,19 +88,6 @@ resource "proxmox_vm_qemu" "vm" {
 
     skip_ipv6   = true
 }
-
-# resource "ansible_host" "host" {
-#   for_each = { for entry in local.cluster_map : entry.name => entry }
-
-#   name   = each.value.name
-#   groups = [each.value.group]
-
-#   variables = {
-#     ansible_user = "nick"
-#     ansible_host = split("/", local.vm_map[each.value.name].network.ip)[0]
-#     ansible_ssh_common_args = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-#   }
-# }
 
 resource "ansible_host" "host" {
   for_each = {
