@@ -22,9 +22,15 @@ spec:
       labels:
         app:  homer
     spec:
+      securityContext:
+        fsGroup: 1000
       containers:
       - name:  homer
         image:  b4bz/homer:v25.03.3
+        securityContext:
+          runAsUser: 1000
+          runAsGroup: 1000
+          allowPrivilegeEscalation: false
         resources:
           requests:
             cpu: 100m
