@@ -11,7 +11,7 @@ spec:
   selector:
     matchLabels:
       app: homer
-  replicas: 2
+  replicas: 1
   strategy:
     rollingUpdate:
       maxSurge: 25%
