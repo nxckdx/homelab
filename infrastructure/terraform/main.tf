@@ -17,16 +17,34 @@ locals {
   vm_map = { for vm_instance in var.vm : vm_instance.name => vm_instance }
 
   # Kubernetes Cluster Mapping in eine flache Liste umwandeln
+  # cluster_map = flatten([
+  #   for cluster in var.kubernetes.cluster : [
+  #     for role, hosts in cluster.nodes : [
+  #       for host in hosts : {
+  #         name  = host
+  #         group = role
+  #       }
+  #     ]
+  #   ]
+  # ])
+
   cluster_map = flatten([
-    for cluster in var.kubernetes.cluster : [
-      for role, hosts in cluster.nodes : [
-        for host in hosts : {
-          name  = host
-          group = role
-        }
-      ]
+  for cluster in var.kubernetes.cluster : [
+    for role, hosts in (
+      cluster.nodes.all != null ?
+      {
+        master = cluster.nodes.all,
+        worker = cluster.nodes.all
+      } :
+      cluster.nodes
+    ) : [
+      for host in hosts : {
+        name  = host
+        group = role
+      }
     ]
-  ])
+  ]
+])
 }
 
 resource "proxmox_vm_qemu" "vm" {
