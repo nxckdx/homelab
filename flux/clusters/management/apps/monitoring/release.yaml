@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: prometheus-community
         namespace: flux-system
-      version: "69.8.2"
+      version: "70.3.0"
   interval: 1h0m0s
   timeout: 20m0s
   values:
@@ -44,6 +44,21 @@ spec:
               resources:
                 requests:
                   storage: 35Gi
+        additionalScrapeConfigs:
+          - job_name: 'snmp'
+            metrics_path: /snmp
+            params:
+              module: [if_mib]
+            static_configs:
+              - targets:
+                - 192.168.178.61
+            relabel_configs:
+              - source_labels: [__address__]
+                target_label: __param_target
+              - source_labels: [__param_target]
+                target_label: instance
+              - target_label: __address__
+                replacement: prometheus-snmp-exporter.monitoring.svc:9116
     grafana:
       ingress:
         enabled: true
