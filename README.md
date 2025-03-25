@@ -7,6 +7,8 @@ In this cluster, I have documented only **Rancher, Jenkins, and my private Gitea
 
 If you're interested in the **detailed setup**, feel free to reach out to me 😉.
 
+![Homelab-Setup Diagramm](./images/homelab-k8s-mgmt-cluster.drawio.png)
+
 This setup consists of **three main steps**:  
 1. **Packer** creates an **Ubuntu 24.04** template.  
 2. **Terraform** provisions additional VMs from that template.  
