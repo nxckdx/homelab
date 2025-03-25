@@ -35,6 +35,19 @@ spec:
               requests:
                 storage: 5Gi
     prometheus:
+      ingress:
+        enabled: true
+        ingressClassName: nginx
+        annotations:
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        hosts:
+          - "prometheus.kube.mgmt.nickdann.net"
+        paths:
+          - /
+        tls:
+          - secretName: prometheus-ssl-tls
+            hosts:
+              - "prometheus.kube.mgmt.nickdann.net"
       prometheusSpec:
         storageSpec:
           volumeClaimTemplate:
