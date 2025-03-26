@@ -57,6 +57,7 @@ spec:
               resources:
                 requests:
                   storage: 35Gi
+        serviceMonitorSelectorNilUsesHelmValues: false
         additionalScrapeConfigs:
           - job_name: 'snmp'
             metrics_path: /snmp
