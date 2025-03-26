@@ -18,9 +18,6 @@ spec:
       path: /snmp
       params:
         module: [if_mib]
-      static_configs:
-        - targets:
-          - 192.168.178.61
       relabelings:
         - sourceLabels: [__address__]
           targetLabel: __param_target
