@@ -6,33 +6,25 @@ terraform {
       source  = "Telmate/proxmox"
       version = "3.0.1-rc6"
     }
-    ansible = {
-      source = "ansible/ansible"
-      version = "1.3.0"
-    }
   }
 }
 
 locals {
   vm_map = { for vm_instance in var.vm : vm_instance.name => vm_instance }
 
-  cluster_map = flatten([
-    for cluster in var.kubernetes.cluster : [
-      for role, hosts in (
-        contains(keys(cluster.nodes), "all") ?
-        {
-          master = cluster.nodes.all,
-          worker = cluster.nodes.all
-        } :
-        cluster.nodes
-      ) : [
-        for host in hosts : {
-          name  = host
-          group = role
-        }
-      ]
+  inventory_content = join("\n", flatten([
+    for role in distinct(flatten([for vm in var.vm : vm.kubernetes_roles])) : [
+      "[${role}]",
+      join("\n", [
+        for vm in var.vm : (
+          contains(vm.kubernetes_roles, role) ?
+          "${vm.name} ansible_host=${split("/", vm.network.ip)[0]} ansible_user=\"nick\" ansible_ssh_common_args=\"-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null\" " :
+          null
+        )
+      ]),
+      ""
     ]
-  ])
+  ]))
 }
 
 resource "proxmox_vm_qemu" "vm" {
@@ -56,6 +48,7 @@ resource "proxmox_vm_qemu" "vm" {
         id      = 0
         bridge  = each.value.network.bridge
         model   = "virtio"
+        tag     = each.value.network.tag
     }
 
     disks {
@@ -89,18 +82,8 @@ resource "proxmox_vm_qemu" "vm" {
     skip_ipv6   = true
 }
 
-resource "ansible_host" "host" {
-  for_each = {
-    for entry in local.cluster_map :
-    "${entry.name}-${entry.group}" => entry
-  }
 
-  name   = each.value.name
-  groups = [each.value.group]
-
-  variables = {
-    ansible_user             = "nick"
-    ansible_host             = split("/", local.vm_map[each.value.name].network.ip)[0]
-    ansible_ssh_common_args  = "-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
-  }
+resource "local_file" "ansible_inventory" {
+  content  = local.inventory_content
+  filename = "${path.module}/inventory/inventory.ini"
 }

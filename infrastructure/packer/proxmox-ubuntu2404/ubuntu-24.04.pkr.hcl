@@ -66,12 +66,12 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
     boot_iso {
         # VM OS Settings
         # (Option 1) Local ISO File
-        # iso_file = "hdd:iso/ubuntu-24.04.2-live-server-amd64.iso"
+        # iso_file = "local:iso/ubuntu-24.04.2-live-server-amd64.iso"
         # - or -
         # (Option 2) Download ISO
         iso_url = "https://ftp.halifax.rwth-aachen.de/ubuntu-releases/noble/ubuntu-24.04.2-live-server-amd64.iso"
         iso_checksum = "d6dab0c3a657988501b4bd76f1297c053df710e06e0c3aece60dead24f270b4d"
-        iso_storage_pool = "hdd"
+        iso_storage_pool = "local"
         iso_download_pve = true
         unmount = true
     }

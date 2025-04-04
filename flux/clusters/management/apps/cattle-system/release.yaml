@@ -1,7 +1,7 @@
 apiVersion: helm.toolkit.fluxcd.io/v2
 kind: HelmRelease
 metadata:
-  name: rancher-latest
+  name: rancher-stable
   namespace: cattle-system
 spec:
   chart:
@@ -9,9 +9,9 @@ spec:
       chart: rancher
       sourceRef:
         kind: HelmRepository
-        name: rancher-latest
+        name: rancher-stable
         namespace: flux-system
-      version: "2.11.0-rc1"
+      version: "2.10.3"
   interval: 1h0m0s
   values:
     agentTLSMode: system-store
@@ -20,7 +20,7 @@ spec:
       ingressClassName: nginx
       extraAnnotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
-        nginx.org/websocket-services: "rancher-latest"
+        nginx.org/websocket-services: "rancher-stable"
       tls:
         source: secret
     replicas: 2

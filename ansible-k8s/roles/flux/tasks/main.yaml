@@ -12,6 +12,7 @@
     kubectl create secret generic sops-age --namespace flux-system --from-literal=age.agekey={{ age.private }}
   environment:
     KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+  ignore_errors: true
 
 - name: Create Flux Secret with SSH Key
   shell: |
@@ -20,6 +21,7 @@
       --private-key-file=/home/nick/.ssh/id_ed25519
   environment:
     KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
+  ignore_errors: true
 
 - name: Create FluxCD GitRepository
   shell: |

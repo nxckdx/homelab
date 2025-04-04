@@ -2,25 +2,23 @@
   hosts: all
   gather_facts: false
   tasks:
-    - name: Wait 300 seconds, but only start checking after 15 seconds
+    - name: Wait 300 seconds for connection
       ansible.builtin.wait_for_connection:
-        delay: 15
+        delay: 0
         timeout: 300
 
-- hosts: all
+- name: Copy kubeconfig to localhost
+  hosts: kube_control_plane
+  gather_facts: false
   become: true
-  roles:
-    - k8s
+  tasks:
+    - name: Copy admin.conf to Ansible Control Node
+      fetch:
+        src: /etc/kubernetes/super-admin.conf
+        dest: "{{ playbook_dir }}/../kubeconfig"
+        flat: yes
+      run_once: true
 
-- hosts: master
-  become: true
-  roles:
-    - k8s-master
-
-- hosts: worker
-  become: true
-  roles:
-    - k8s-worker
 
 - hosts: localhost
   become: true

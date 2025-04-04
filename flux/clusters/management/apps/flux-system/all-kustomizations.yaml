@@ -1,43 +1,20 @@
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: metallb-system
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/metallb-system"
-  prune: true
-  dependsOn:
-  - name: dependencies-crds
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: dependencies-crds
+  name: dependencies
   namespace: flux-system
 spec:
   interval: 5m0s
-  path: "./flux/clusters/management/dependencies/crds"
+  path: "./flux/clusters/management/dependencies"
   prune: false
   sourceRef:
     kind: GitRepository
     name: flux-system
-
 ---
-
 apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
 kind: Kustomization
 metadata:
-  name: nginx-ingress
+  name: apps
   namespace: flux-system
 spec:
   decryption:
@@ -45,223 +22,10 @@ spec:
     secretRef:
       name: sops-age
   interval: 5m
-  path: "./flux/clusters/management/apps/nginx-ingress"
+  path: "./flux/clusters/management/apps"
   prune: true
   dependsOn:
-  - name: dependencies-crds
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: ceph-csi
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/ceph-csi"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: cert-manager
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/cert-manager"
-  prune: true
-  dependsOn:
-  - name: dependencies-crds
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: monitoring
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/monitoring"
-  prune: true
-  dependsOn:
-  - name: dependencies-crds
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: rancher
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/cattle-system"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: harbor
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/harbor"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: kube-system
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/kube-system"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: jenkins
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/jenkins"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: gitea
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/gitea"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: infisical
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/infisical"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: homer
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/homer"
-  prune: true
-  sourceRef:
-    kind: GitRepository
-    name: flux-system
-
----
-
-apiVersion: kustomize.toolkit.fluxcd.io/v1beta1
-kind: Kustomization
-metadata:
-  name: authentik
-  namespace: flux-system
-spec:
-  decryption:
-    provider: sops
-    secretRef:
-      name: sops-age
-  interval: 5m
-  path: "./flux/clusters/management/apps/authentik"
-  prune: true
+  - name: dependencies
   sourceRef:
     kind: GitRepository
     name: flux-system

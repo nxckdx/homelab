@@ -7,3 +7,4 @@ kubeconfig
 gitlab-chart/
 .ansible/
 .vscode/
+age.agekey
