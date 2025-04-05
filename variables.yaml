@@ -122,3 +122,6 @@ cilium:
     enabled: true
   gatewayAPI:
     enabled: true
+  ingressController:
+    enabled: true
+    default: true

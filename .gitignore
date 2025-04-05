@@ -8,3 +8,4 @@ gitlab-chart/
 .ansible/
 .vscode/
 age.agekey
+cilium-values.yaml

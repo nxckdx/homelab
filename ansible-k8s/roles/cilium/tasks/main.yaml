@@ -41,3 +41,11 @@
     cilium install --chart-directory /tmp/cilium/install/kubernetes/cilium --values {{ playbook_dir }}/../cilium-values.yaml --kubeconfig {{ playbook_dir }}/../kubeconfig --version "v1.17.2"
   args:
     chdir: /tmp
+  register: cilium_install
+  ignore_errors: true
+
+- name: Upgrade Cilium from local chart
+  shell: |
+    cilium upgrade --chart-directory /tmp/cilium/install/kubernetes/cilium --values {{ playbook_dir }}/../cilium-values.yaml --kubeconfig {{ playbook_dir }}/../kubeconfig --version "v1.17.2"
+  args:
+    chdir: /tmp
