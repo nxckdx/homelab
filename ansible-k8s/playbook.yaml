@@ -19,6 +19,13 @@
         flat: yes
       run_once: true
 
+- hosts: localhost
+  become: true
+  roles:
+    - cilium
+  vars_files:
+    - ../secret.yaml
+
 
 - hosts: localhost
   become: true

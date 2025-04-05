@@ -1,0 +1,43 @@
+# - name: Download Helm
+#   shell: curl -s https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3 | bash
+
+- name: Get latest Cilium CLI version
+  shell: |
+    curl -s https://raw.githubusercontent.com/cilium/cilium-cli/main/stable.txt
+  register: cilium_cli_version
+  changed_when: false
+
+- name: Set CLI architecture
+  set_fact:
+    cli_arch: "{{ 'arm64' if ansible_architecture == 'aarch64' else 'amd64' }}"
+
+- name: Download Cilium CLI binary and checksum
+  shell: |
+    curl -L --fail --remote-name-all https://github.com/cilium/cilium-cli/releases/download/{{ cilium_cli_version.stdout }}/cilium-linux-{{ cli_arch }}.tar.gz{,.sha256sum}
+  args:
+    chdir: /tmp
+
+- name: Verify checksum
+  shell: |
+    sha256sum --check cilium-linux-{{ cli_arch }}.tar.gz.sha256sum
+  args:
+    chdir: /tmp
+
+- name: Extract and install Cilium CLI
+  shell: |
+    tar xzvfC cilium-linux-{{ cli_arch }}.tar.gz /usr/local/bin
+  args:
+    chdir: /tmp
+
+- name: Clone Cilium repository
+  git:
+    repo: 'https://github.com/cilium/cilium.git'
+    dest: /tmp/cilium
+    version: main
+    accept_hostkey: yes
+
+- name: Install Cilium from local chart
+  shell: |
+    cilium install --chart-directory /tmp/cilium/install/kubernetes/cilium --values {{ playbook_dir }}/../cilium-values.yaml --kubeconfig {{ playbook_dir }}/../kubeconfig --version "v1.17.2"
+  args:
+    chdir: /tmp
