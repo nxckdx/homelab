@@ -1,0 +1,85 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: ceph-csi-config
+    namespace: ceph-csi
+data:
+    config.json: ENC[AES256_GCM,data:OH4wwClT3k4ny1WjKkN9DeMkA+9/6ciG7LLlo63vvbPsIBWl0HR2h4waImhlmVBbdbdzd34rzfkPLBHtHswA/T+t/dCCDX8trcYjdPB1cOS19kOBDSa+lEHRsSHiizKlTTMJVM+VxP4sbSzxKt/ROFXK2awdMAC+pK5u8QIUpOGpj8j6CD6xlQKjtpfjoG2AUEuAe7rn+fSRxvhKcAJhegVeuuOacFXvniBQG5pt7EgjhXHoNg==,iv:hGrTAmmgugPRJn7mkyH9X7fQU8gD637CEDdFG9pTwcM=,tag:3wYdYglZ2S6YfF4oZ7QwTQ==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age10d9p4k0wlwwznf4dprjnjf702p59yr76etfd0dgzlajezpmzu9gq6qhhus
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBQdHpWdTZuTTU1SXplUFRm
+            b2FhQncwL2x6RWhDUjAySloxeFJxU3dlbUJZCm5hWnMyS1ZpSG95RmNwem1tRHU4
+            d0RLNkJQT3FBWEluZ3FRYkc2ZHZrM3MKLS0tIE42RzBrcE8xc0VTclcrNy9KMWUz
+            QXJiQnJnYnBvMmdCSDlUUSs3MHNxT2cKkLvQHhPtqSfSHzYb6ULQI+xMvm+/zan2
+            gMUuLgi+aE64VTdVUveQBfIAeoAWNMtDSHkB5WS9PhqKo0Q1AsKdnA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-04-05T11:17:24Z"
+    mac: ENC[AES256_GCM,data:DQRmyCCbJxfWXHr6LBbRJ06j29eL6gVkxeWnMJVPkvOmIU21o3moHyLqeGiU42ZBDJiH8WwL3X9vj1t4Eb0S5tUulEp9BlS2jeVfkyUT/6Hm6goWUfdJ/i4VSSevl4o0KvcHRKSewxkL5/CjqMFMhYHt2Zz9x+DAf+wpTYWDvJg=,iv:yhc05929ygiunfUZ4kspZ8Mk2ZSAPiB4kAzxvCLptdc=,tag:cSMkSCiKjcFM2TLQaxY7ug==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.4
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: ceph-config
+    namespace: ceph-csi
+data:
+    ceph.conf: ENC[AES256_GCM,data:FmCHu1AzFyPvKWHPS7rRvU8Q6gb/Yf7ksNuPq+bXFWW6ay87wgaEjlasGvkA+amfKD2CUFcCztvmrExZFKOU2M1J5TyxzlljgiZTgURy1+EuXAfC62+fJiYLg3N3UV6Y0dM=,iv:XPkYuKJbYgfzeydboNhckNTcrwcNSH4gWUDEHw01wwo=,tag:A9J+hUGRQCWA+k1zbL0xvg==,type:str]
+    #ENC[AES256_GCM,data:uKNWp0nhVDXsU9rdMfTLTLx3tcuwYx3EMA+5yUqHPLeOcfuLj/uJYXr0Gn5bFvfnDYe74hTDS90=,iv:zraUX3rxw6E2HTIix8OAx45ZEsAfPdeZABa+4zrMkNs=,tag:i5Gx68mx9pbbJSup7q9owA==,type:comment]
+    keyring: ""
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age10d9p4k0wlwwznf4dprjnjf702p59yr76etfd0dgzlajezpmzu9gq6qhhus
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBQdHpWdTZuTTU1SXplUFRm
+            b2FhQncwL2x6RWhDUjAySloxeFJxU3dlbUJZCm5hWnMyS1ZpSG95RmNwem1tRHU4
+            d0RLNkJQT3FBWEluZ3FRYkc2ZHZrM3MKLS0tIE42RzBrcE8xc0VTclcrNy9KMWUz
+            QXJiQnJnYnBvMmdCSDlUUSs3MHNxT2cKkLvQHhPtqSfSHzYb6ULQI+xMvm+/zan2
+            gMUuLgi+aE64VTdVUveQBfIAeoAWNMtDSHkB5WS9PhqKo0Q1AsKdnA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-04-05T11:17:24Z"
+    mac: ENC[AES256_GCM,data:DQRmyCCbJxfWXHr6LBbRJ06j29eL6gVkxeWnMJVPkvOmIU21o3moHyLqeGiU42ZBDJiH8WwL3X9vj1t4Eb0S5tUulEp9BlS2jeVfkyUT/6Hm6goWUfdJ/i4VSSevl4o0KvcHRKSewxkL5/CjqMFMhYHt2Zz9x+DAf+wpTYWDvJg=,iv:yhc05929ygiunfUZ4kspZ8Mk2ZSAPiB4kAzxvCLptdc=,tag:cSMkSCiKjcFM2TLQaxY7ug==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.4
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+    name: ceph-csi-encryption-kms-config
+    namespace: ceph-csi
+data:
+    config.json: ENC[AES256_GCM,data:rvA=,iv:ilkhmn2cJgNq09Z9xoJUcltWuHSYSZDyRaLB3PClxAs=,tag:+if5uiS+tb9uMeB9vAjruw==,type:str]
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age10d9p4k0wlwwznf4dprjnjf702p59yr76etfd0dgzlajezpmzu9gq6qhhus
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBQdHpWdTZuTTU1SXplUFRm
+            b2FhQncwL2x6RWhDUjAySloxeFJxU3dlbUJZCm5hWnMyS1ZpSG95RmNwem1tRHU4
+            d0RLNkJQT3FBWEluZ3FRYkc2ZHZrM3MKLS0tIE42RzBrcE8xc0VTclcrNy9KMWUz
+            QXJiQnJnYnBvMmdCSDlUUSs3MHNxT2cKkLvQHhPtqSfSHzYb6ULQI+xMvm+/zan2
+            gMUuLgi+aE64VTdVUveQBfIAeoAWNMtDSHkB5WS9PhqKo0Q1AsKdnA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2025-04-05T11:17:24Z"
+    mac: ENC[AES256_GCM,data:DQRmyCCbJxfWXHr6LBbRJ06j29eL6gVkxeWnMJVPkvOmIU21o3moHyLqeGiU42ZBDJiH8WwL3X9vj1t4Eb0S5tUulEp9BlS2jeVfkyUT/6Hm6goWUfdJ/i4VSSevl4o0KvcHRKSewxkL5/CjqMFMhYHt2Zz9x+DAf+wpTYWDvJg=,iv:yhc05929ygiunfUZ4kspZ8Mk2ZSAPiB4kAzxvCLptdc=,tag:cSMkSCiKjcFM2TLQaxY7ug==,type:str]
+    pgp: []
+    encrypted_regex: ^(data|stringData)$
+    version: 3.9.4

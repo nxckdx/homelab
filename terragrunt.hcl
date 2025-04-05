@@ -44,6 +44,12 @@ quay.io/kubespray/kubespray:v2.27.0 \
 ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_ed25519 cluster.yml --extra-vars "@/inventory/extra_vars.yaml" --become --become-user=root
 
 ansible-playbook -i ${get_working_dir()}/inventory/inventory.ini ${get_repo_root()}/ansible-k8s/playbook.yaml --vault-password-file ${get_repo_root()}/.vault_pass
+
+if [[ '${local.config.kubespray_extra_vars.kube_vip_enabled}' == 'true' ]];
+  sed -i 's+server:.*+server: https://${local.config.kubespray_extra_vars.kube_vip_address}:6443+g' ${get_repo_root()}/kubeconfig
+fi
+
+kubectl --kubeconfig ${get_repo_root()}/kubeconfig get node -o custom-columns='NAME:.metadata.name' --no-headers | while read line; do kubectl --kubeconfig ${get_repo_root()}/kubeconfig label node $line node.kubernetes.io/exclude-from-external-load-balancers-; done
 EOT
     ]
   }
