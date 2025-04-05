@@ -77,11 +77,33 @@ vm:
       - kube_node
 
 kubespray_extra_vars:
-  kube_network_plugin: "flannel"
+  kube_proxy_remove: true
+
+  kube_network_plugin: none
+  # cilium_l2announcements: true
+  # cilium_agent_health_port: "9879"
+  # cilium_identity_allocation_mode: kvstore
+  # cilium_kube_proxy_replacement: strict
+  # cilium_enable_hubble: true
+  # cilium_enable_hubble_ui: true
+  # cilium_enable_hubble_metrics: true
+  # cilium_hubble_metrics:
+  #   - dns
+  #   - drop
+  #   - tcp
+  #   - flow
+  #   - icmp
+  #   - http
+  # cilium_hubble_install: true
+  # cilium_hubble_tls_generate: true
+  # cilium_ipam_mode: kubernetes
+  # cilium_operator_replicas: 3
+  
   metrics_server_enabled: true
+
   kube_vip_enabled: true
   kube_vip_arp_enabled: true
   kube_vip_controlplane_enabled: true
   kube_vip_address: "192.168.100.100"
   kube_proxy_strict_arp: true
-  kube_proxy_mode: iptables
+  # kube_proxy_mode: iptables
