@@ -3,7 +3,7 @@
 
 - name: Install FluxCD components in Kubernetes
   shell: |
-    flux install --components-extra=image-reflector-controller,image-automation-controller --network-policy false
+    flux install --components-extra=image-reflector-controller,image-automation-controller
   environment:
     KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
 
