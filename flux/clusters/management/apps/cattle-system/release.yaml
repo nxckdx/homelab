@@ -17,7 +17,7 @@ spec:
     agentTLSMode: system-store
     ingress:
       enabled: true
-      ingressClassName: nginx
+      ingressClassName: cilium
       extraAnnotations:
         cert-manager.io/cluster-issuer: "cloudflare-issuer"
       tls:
