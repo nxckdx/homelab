@@ -18,6 +18,8 @@ EOT
     commands = ["init", "apply"]
     execute  = [
       "/bin/bash", "-c", <<-EOT
+packer init ${get_repo_root()}/infrastructure/packer/proxmox-ubuntu2404/
+  
 packer build \
 -var "proxmox_api_url=${local.secret.proxmox_api.url}" \
 -var "proxmox_api_token_id=${local.secret.proxmox_api.token_id}" \
