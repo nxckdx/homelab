@@ -27,5 +27,14 @@ secretGenerator:
       - custom-icons/proxmox.png
       - custom-icons/rancher.png
 
+patches:
+  - target:
+      kind: Secret
+      name: custom-icons
+    patch: |
+      - op: add
+        path: /metadata/annotations/kustomize.toolkit.fluxcd.io~1skip
+        value: "true"
+
 generatorOptions:
   disableNameSuffixHash: true
