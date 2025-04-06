@@ -100,7 +100,7 @@ data:
             url: "https://infisical.kube.mgmt.nickdann.net/"
             target: "_blank"
           - name: "Gitea"
-            logo: "assets/icons/gitea.png"
+            logo: "https://github.com/NX211/homer-icons/blob/master/png/gitea.png"
             subtitle: "Self-hosted Git"
             tag: "git"
             url: "https://gitea.kube.mgmt.nickdann.net/"
