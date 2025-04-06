@@ -4,7 +4,7 @@ metadata:
   name: l2-policy
   namespace: kube-system
 spec:
-  serviceSelector:
-    matchLabels:
-      cilium-lb-pool: ip-pool
+  # serviceSelector:
+  #   matchLabels:
+  #     cilium-lb-pool: ip-pool
   loadBalancerIPs: true

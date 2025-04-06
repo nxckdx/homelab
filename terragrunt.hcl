@@ -40,10 +40,10 @@ EOT
       "/bin/bash", "-c", <<-EOT
 echo '${yamlencode(local.config.kubespray_extra_vars)}' > ${get_working_dir()}/inventory/extra_vars.yaml
 
-# sudo docker run --rm --mount type=bind,source=${get_working_dir()}/inventory,dst=/inventory \
-# --mount type=bind,source=/home/$(whoami)/.ssh/id_ed25519,dst=/root/.ssh/id_ed25519 \
-# quay.io/kubespray/kubespray:v2.27.0 \
-# ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_ed25519 cluster.yml --extra-vars "@/inventory/extra_vars.yaml" --become --become-user=root
+sudo docker run --rm --mount type=bind,source=${get_working_dir()}/inventory,dst=/inventory \
+--mount type=bind,source=/home/$(whoami)/.ssh/id_ed25519,dst=/root/.ssh/id_ed25519 \
+quay.io/kubespray/kubespray:v2.27.0 \
+ansible-playbook -i /inventory/inventory.ini --private-key /root/.ssh/id_ed25519 cluster.yml --extra-vars "@/inventory/extra_vars.yaml" --become --become-user=root
 
 echo '${yamlencode(local.config.cilium)}' > ${get_repo_root()}/cilium-values.yaml
 
