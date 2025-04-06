@@ -1,0 +1,27 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - namespace.yaml
+  - deployment.yaml
+  - service.yaml
+  - ingress.yaml
+
+configMapGenerator:
+  - name: config
+    files:
+      - config.yml=conf/config.yml
+  - name: custom-icons
+    files:
+      - custom-icons/authentik.png
+      - custom-icons/gitea.png
+      - custom-icons/grafana.png
+      - custom-icons/harbor.png
+      - custom-icons/infisical.png
+      - custom-icons/jenkins.png
+      - custom-icons/opnsense.png
+      - custom-icons/proxmox.png
+      - custom-icons/rancher.png
+
+generatorOptions:
+  disableNameSuffixHash: true
