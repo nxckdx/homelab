@@ -14,27 +14,27 @@ configMapGenerator:
     files:
       - config.yml=conf/config.yml
 
-secretGenerator:
-  - name: custom-icons
-    files:
-      - custom-icons/authentik.png
-      - custom-icons/gitea.png
-      - custom-icons/grafana.png
-      - custom-icons/harbor.png
-      - custom-icons/infisical.png
-      - custom-icons/jenkins.png
-      - custom-icons/opnsense.png
-      - custom-icons/proxmox.png
-      - custom-icons/rancher.png
+# secretGenerator:
+#   - name: custom-icons
+#     files:
+#       - custom-icons/authentik.png
+#       - custom-icons/gitea.png
+#       - custom-icons/grafana.png
+#       - custom-icons/harbor.png
+#       - custom-icons/infisical.png
+#       - custom-icons/jenkins.png
+#       - custom-icons/opnsense.png
+#       - custom-icons/proxmox.png
+#       - custom-icons/rancher.png
 
-patches:
-  - target:
-      kind: Secret
-      name: custom-icons
-    patch: |
-      - op: add
-        path: /metadata/annotations/kustomize.toolkit.fluxcd.io~1skip
-        value: "true"
+# patches:
+#   - target:
+#       kind: Secret
+#       name: custom-icons
+#     patch: |
+#       - op: add
+#         path: /metadata/annotations/kustomize.toolkit.fluxcd.io~1skip
+#         value: "true"
 
 generatorOptions:
   disableNameSuffixHash: true
