@@ -8,3 +8,14 @@ spec:
 
   storage:
     size: 15Gi
+  
+  managed:
+    roles:
+      - name: gitea
+        ensure: present
+        login: true
+        superuser: false
+        createdb: false
+        createrole: false
+        passwordSecret:
+          name: gitea-db-secrets

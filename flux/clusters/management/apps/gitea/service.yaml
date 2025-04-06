@@ -12,35 +12,20 @@ spec:
     protocol: TCP
     port: 3000
     targetPort: 3000
-
 ---
-
-apiVersion: v1
-kind: Service
-metadata:
-  name: postgresql
-  namespace: gitea
-spec:
-  selector:
-    app: postgresql
-  type: ClusterIP
-  ports:
-  - name: postgresql
-    protocol: TCP
-    port: 5432
-    targetPort: 5432
-
----
-
 apiVersion: v1
 kind: Service
 metadata:
   name: gitea-ssh
   namespace: gitea
+  annotations:
+    lbipam.cilium.io/sharing-key: homelab
+    lbipam.cilium.io/sharing-cross-namespace: "*"
 spec:
   selector:
     app: gitea
   type: LoadBalancer
+  loadBalancerIP: "192.168.100.150"
   ports:
   - name: gitea
     protocol: TCP
