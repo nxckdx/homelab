@@ -35,6 +35,13 @@ spec:
       dashboard:
         enabled: true
         entryPoints: ["traefik", "web", "websecure"]
+        matchRule: Host(`traefik.kube.mgmt.nickdann.net`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+        annotations:
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        tls:
+          secretName: traefik-dashboard-tls
+          domains:
+            - main: traefik.kube.mgmt.nickdann.net
     ports:
       web:
         redirections:
@@ -60,28 +67,3 @@ spec:
               name: traefik
               targetPort: 8080
               protocol: TCP
-
-      - apiVersion: networking.k8s.io/v1
-        kind: Ingress
-        metadata:
-          name: traefik-dashboard
-          namespace: traefik
-          annotations:
-            traefik.ingress.kubernetes.io/router.entrypoints: websecure
-            cert-manager.io/cluster-issuer: "cloudflare-issuer"
-        spec:
-          rules:
-            - host: traefik.kube.mgmt.nickdann.net
-              http:
-                paths:
-                  - path: /
-                    pathType: Prefix
-                    backend:
-                      service:
-                        name: traefik-api
-                        port:
-                          name: traefik
-          tls:
-            - secretName: traefik-dashboard-tls
-              hosts:
-                - traefik.kube.mgmt.nickdann.net
