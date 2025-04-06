@@ -1,0 +1,34 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: jenkins
+  namespace: jenkins
+spec:
+  chart:
+    spec:
+      chart: jenkins
+      sourceRef:
+        kind: HelmRepository
+        name: jenkins
+        namespace: flux-system
+      version: "5.8.32"
+  interval: 1h0m0s
+  timeout: 20m0s
+  values:
+    controller:
+      ingress:
+        enabled: true
+        apiVersion: "networking.k8s.io/v1"
+        annotations:
+          cert-manager.io/cluster-issuer: "cloudflare-issuer"
+        ingressClassName: traefik
+        path: "/"
+        hostName: jenkins.kube.mgmt.nickdann.net
+        tls:
+          - secretName: jenkins-http-tls
+            hosts:
+              - jenkins.kube.mgmt.nickdann.net
+    persistence:
+      enabled: true
+      storageClass: csi-rbd-sc
+      size: "15Gi"
