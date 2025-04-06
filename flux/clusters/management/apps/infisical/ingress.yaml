@@ -22,4 +22,4 @@ spec:
     - hosts:
         - infisical.kube.mgmt.nickdann.net
       secretName: infisical-http-tls
-  ingressClassName: nginx
+  ingressClassName: traefik

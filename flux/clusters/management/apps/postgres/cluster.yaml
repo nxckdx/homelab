@@ -28,3 +28,12 @@ spec:
         createrole: false
         passwordSecret:
           name: harbor-db-secrets
+
+      - name: infisical
+        ensure: present
+        login: true
+        superuser: false
+        createdb: false
+        createrole: false
+        passwordSecret:
+          name: infisical-db-secrets

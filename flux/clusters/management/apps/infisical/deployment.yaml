@@ -22,8 +22,7 @@ spec:
     spec:
       containers:
       - name:  infisical
-        image:  infisical/infisical:latest-postgres
-        imagePullPolicy: Always
+        image:  infisical/infisical:v0.119.0-postgres
         resources:
           requests:
             cpu: 100m
@@ -37,6 +36,18 @@ spec:
         env:
           - name: NODE_ENV
             value: "production"
+          - name: POSTGRES_USER
+            valueFrom:
+              secretKeyRef:
+                name: infisical-db-secrets
+                key: username
+          - name: POSTGRES_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: infisical-db-secrets
+                key: password
+          - name: POSTGRES_DB
+            value: "infisical-db"
         ports:
         - containerPort:  8080
           name:  infisical

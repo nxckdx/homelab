@@ -1,0 +1,10 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Database
+metadata:
+  name: infisical-db
+  namespace: postgres
+spec:
+  name: infisical-db
+  owner: infisical
+  cluster:
+    name: postgres-cluster
