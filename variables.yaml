@@ -106,9 +106,4 @@ cilium:
   gatewayAPI:
     enabled: true
   ingressController:
-    enabled: true
-    default: true
-    service:
-      labels:
-        service.cilium.io/lb-ipam: "true"
-        cilium-lb-pool: ip-pool
+    enabled: false

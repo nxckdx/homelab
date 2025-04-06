@@ -16,11 +16,11 @@ spec:
   values:
     agentTLSMode: system-store
     ingress:
-      enabled: false
-      # ingressClassName: cilium
-      # extraAnnotations:
-      #   cert-manager.io/cluster-issuer: "cloudflare-issuer"
-      # tls:
-      #   source: secret
+      enabled: true
+      ingressClassName: traefik
+      extraAnnotations:
+        cert-manager.io/cluster-issuer: "cloudflare-issuer"
+      tls:
+        source: secret
     replicas: 2
     hostname: rancher.kube.mgmt.nickdann.net
