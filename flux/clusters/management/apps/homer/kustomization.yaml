@@ -13,6 +13,8 @@ configMapGenerator:
   - name: config
     files:
       - config.yml=conf/config.yml
+
+secretGenerator:
   - name: custom-icons
     files:
       - custom-icons/authentik.png

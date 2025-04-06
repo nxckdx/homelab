@@ -63,6 +63,6 @@ spec:
           configMap:
             name: config
         - name: custom-icons
-          configMap:
-            name: custom-icons
+          secret:
+            secretName: custom-icons
       restartPolicy: Always
