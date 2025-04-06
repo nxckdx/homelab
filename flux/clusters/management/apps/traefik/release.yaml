@@ -34,8 +34,8 @@ spec:
     ingressRoute:
       dashboard:
         enabled: true
-        entryPoints: ["traefik", "web", "websecure"]
-        matchRule: Host(`traefik.kube.mgmt.nickdann.net`) && (PathPrefix(`/dashboard`) || PathPrefix(`/api`))
+        entryPoints: ["web", "websecure"]
+        matchRule: Host(`traefik.kube.mgmt.nickdann.net`)
         annotations:
           cert-manager.io/cluster-issuer: "cloudflare-issuer"
         tls:
@@ -49,21 +49,3 @@ spec:
             to: websecure
             scheme: https
             permanent: true
-    additionalArguments:
-      - "--api.insecure=true"
-    extraObjects:
-      - apiVersion: v1
-        kind: Service
-        metadata:
-          name: traefik-api
-          namespace: traefik
-        spec:
-          type: ClusterIP
-          selector:
-            app.kubernetes.io/name: traefik
-            app.kubernetes.io/instance: traefik-default
-          ports:
-            - port: 8080
-              name: traefik
-              targetPort: 8080
-              protocol: TCP
