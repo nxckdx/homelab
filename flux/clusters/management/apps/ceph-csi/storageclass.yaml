@@ -6,7 +6,7 @@ metadata:
       storageclass.kubernetes.io/is-default-class: true
 provisioner: rbd.csi.ceph.com
 parameters:
-   clusterID: 505a82ac-5a04-4ce0-af21-aa5ec7d707fa
+   clusterID: 080cc54c-0e57-11f0-88dc-1c834129c00c
    pool: kubernetes
    imageFeatures: layering
    csi.storage.k8s.io/provisioner-secret-name: csi-rbd-secret
