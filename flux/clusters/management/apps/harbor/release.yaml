@@ -16,6 +16,7 @@ spec:
   timeout: 20m0s
   values:
     expose:
+      type: ingress
       tls:
         certSource: secret
         secret:
@@ -23,15 +24,24 @@ spec:
       ingress:
         hosts:
           core: harbor.kube.mgmt.nickdann.net
-        className: nginx
+        className: traefik
         annotations:
           ingress.kubernetes.io/ssl-redirect: "true"
           ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.ingress.kubernetes.io/ssl-redirect: "true"
-          nginx.ingress.kubernetes.io/proxy-body-size: "0"
-          nginx.org/client-max-body-size: "0"
           cert-manager.io/cluster-issuer: "cloudflare-issuer"
     externalURL: https://harbor.kube.mgmt.nickdann.net
+    database:
+      type: external
+      external:
+        host: "postgres-cluster-rw.postgres.svc.cluster.local"
+        port: "5432"
+        username: harbor
+        existingSecret: harbor-db-secrets # The Password
+        coreDatabase: "harbor-db"
+    redis:
+      type: external
+      external:
+        addr: "redis.redis.svc.cluster.local:6379"
     persistence:
       persistentVolumeClaim:
         registry:
@@ -40,9 +50,5 @@ spec:
         jobservice:
           jobLog:
             storageClass: csi-rbd-sc
-        database:
-          storageClass: csi-rbd-sc
-        redis:
-          storageClass: csi-rbd-sc
         trivy:
           storageClass: csi-rbd-sc

@@ -19,3 +19,12 @@ spec:
         createrole: false
         passwordSecret:
           name: gitea-db-secrets
+
+      - name: harbor
+        ensure: present
+        login: true
+        superuser: false
+        createdb: false
+        createrole: false
+        passwordSecret:
+          name: harbor-db-secrets
