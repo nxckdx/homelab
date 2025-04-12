@@ -11,6 +11,7 @@ spec:
     volumeMounts:
     - name: cephfs-vol
       mountPath: /mnt/cephfs
+      readonly: true
   volumes:
   - name: cephfs-vol
     persistentVolumeClaim:
