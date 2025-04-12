@@ -16,6 +16,7 @@ spec:
       clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
       fsName: media
       staticVolume: "true"
+      rootPath: /
     nodeStageSecretRef:
       name: csi-rbd-secret
       namespace: ceph-csi
