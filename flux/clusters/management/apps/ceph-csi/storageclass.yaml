@@ -27,4 +27,4 @@ metadata:
 provisioner: cephfs.csi.ceph.com
 parameters:
   clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
-  fsName: cephfs
+  fsName: media
