@@ -1,24 +1,22 @@
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: cephfs-pv-readonly
-# spec:
-#   capacity:
-#     storage: 10Gi
-#   storageClassName: cephfs
-#   accessModes:
-#     # - ReadOnlyMany
-#     - ReadWriteMany
-#   persistentVolumeReclaimPolicy: Retain
-#   csi:
-#     driver: cephfs.csi.ceph.com
-#     volumeHandle: cephfs-media-readonly
-#     volumeAttributes:
-#       clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
-#       fsName: media
-#       staticVolume: "true"
-#       # rootPath: /
-#     nodeStageSecretRef:
-#       name: csi-rbd-secret
-#       namespace: ceph-csi
-#     # readOnly: true
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: cephfs-pv-readonly
+spec:
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadOnlyMany
+  persistentVolumeReclaimPolicy: Retain
+  csi:
+    driver: cephfs.csi.ceph.com
+    volumeHandle: cephfs-media-videosvr-readonly
+    volumeAttributes:
+      clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
+      fsName: media
+      staticVolume: "true"
+      rootPath: "/Videos_VR/"
+    nodeStageSecretRef:
+      name: csi-rbd-secret
+      namespace: ceph-csi
+    readOnly: true
