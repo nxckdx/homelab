@@ -12,3 +12,18 @@ spec:
       storage: 10Gi
   volumeName: cephfs-pv-readonly
 
+---
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: cephfs-pvc2
+  namespace: default
+spec:
+  accessModes:
+    - ReadOnlyMany
+  storageClassName: ""
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: cephfs-pv-readonly
