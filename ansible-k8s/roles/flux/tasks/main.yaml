@@ -17,8 +17,8 @@
 - name: Create Flux Secret with SSH Key
   shell: |
     flux create secret git flux-system \
-      --url=ssh://git@github.com/nxckdx/homelab.git \
-      --private-key-file=/home/nick/.ssh/id_ed25519
+      --url={{ git.url }} \
+      --private-key-file={{ private_key_file }}
   environment:
     KUBECONFIG: "{{ playbook_dir }}/../kubeconfig"
   ignore_errors: true
@@ -33,7 +33,7 @@
       namespace: flux-system
     spec:
       interval: 1m
-      url: ssh://git@github.com/nxckdx/homelab.git
+      url: {{ git.url }}
       ref:
         branch: main
       secretRef:
@@ -56,7 +56,7 @@
         secretRef:
           name: sops-age
       interval: 5m
-      path: "./flux/clusters/management/apps/flux-system"
+      path: "{{ git.path }}"
       prune: true
       sourceRef:
         kind: GitRepository

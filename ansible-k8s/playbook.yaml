@@ -33,3 +33,4 @@
     - flux
   vars_files:
     - ../secret.yaml
+    - ../flux-values.yaml

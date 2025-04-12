@@ -6,7 +6,7 @@ metadata:
       storageclass.kubernetes.io/is-default-class: true
 provisioner: rbd.csi.ceph.com
 parameters:
-   clusterID: 080cc54c-0e57-11f0-88dc-1c834129c00c
+   clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
    pool: kubernetes
    imageFeatures: layering
    csi.storage.k8s.io/provisioner-secret-name: csi-rbd-secret
@@ -19,3 +19,12 @@ reclaimPolicy: Delete
 allowVolumeExpansion: true
 mountOptions:
    - discard
+---
+kind: StorageClass
+apiVersion: storage.k8s.io/v1
+metadata:
+  name: cephfs
+provisioner: cephfs.csi.ceph.com
+parameters:
+  clusterID: 6fcd5cb3-a5b0-4a72-b142-06d7a6bf62e7
+  fsName: cephfs

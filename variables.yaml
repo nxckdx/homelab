@@ -107,3 +107,9 @@ cilium:
     enabled: true
   ingressController:
     enabled: false
+
+flux:
+  git:
+    url: "ssh://git@github.com/nxckdx/homelab.git"
+    path: "./flux/clusters/management/apps/flux-system"
+  private_key_file: /home/nick/.ssh/id_ed25519
