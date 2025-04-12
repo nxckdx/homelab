@@ -9,3 +9,4 @@ gitlab-chart/
 .vscode/
 age.agekey
 cilium-values.yaml
+flux-values.yaml
