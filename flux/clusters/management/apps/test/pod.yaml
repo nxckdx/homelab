@@ -6,14 +6,13 @@ metadata:
 spec:
   containers:
   - name: cephfs-container
-    image: busybox
-    command: ["sleep", "3600"]
+    image: nginx
     volumeMounts:
     - name: cephfs-vol
       mountPath: /mnt/cephfs
-      readonly: true
   volumes:
   - name: cephfs-vol
     persistentVolumeClaim:
       claimName: cephfs-pvc
+      readOnly: true
 
