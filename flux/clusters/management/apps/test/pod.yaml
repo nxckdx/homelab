@@ -14,5 +14,4 @@ spec:
   - name: cephfs-vol
     persistentVolumeClaim:
       claimName: cephfs-pvc
-      readOnly: true
 

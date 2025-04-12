@@ -35,7 +35,9 @@ parameters:
   csi.storage.k8s.io/controller-expand-secret-namespace: ceph-csi
   csi.storage.k8s.io/node-stage-secret-name: csi-rbd-secret
   csi.storage.k8s.io/node-stage-secret-namespace: ceph-csi
-mountOptions:
-  - ro  # <- HERE important for readonly
-reclaimPolicy: Retain
-allowVolumeExpansion: false
+# mountOptions:
+#   - ro  # <- HERE important for readonly
+# reclaimPolicy: Retain
+# allowVolumeExpansion: false
+reclaimPolicy: Delete
+allowVolumeExpansion: true

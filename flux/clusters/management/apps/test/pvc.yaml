@@ -5,7 +5,8 @@ metadata:
   namespace: default
 spec:
   accessModes:
-    - ReadOnlyMany
+    # - ReadOnlyMany
+    - ReadWriteMany
   storageClassName: cephfs
   resources:
     requests:
