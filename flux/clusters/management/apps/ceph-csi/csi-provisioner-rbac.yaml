@@ -128,12 +128,11 @@ roleRef:
   name: rbd-external-provisioner-cfg
   apiGroup: rbac.authorization.k8s.io
 ---
----
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cephfs-csi-provisioner
-  namespace: default
+  namespace: ceph-csi
 
 ---
 kind: ClusterRole
@@ -207,7 +206,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: cephfs-csi-provisioner
-    namespace: default
+    namespace: ceph-csi
 roleRef:
   kind: ClusterRole
   name: cephfs-external-provisioner-runner
@@ -218,7 +217,7 @@ kind: Role
 apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   # replace with non-default namespace name
-  namespace: default
+  namespace: ceph-csi
   name: cephfs-external-provisioner-cfg
 rules:
   - apiGroups: [""]
@@ -234,12 +233,12 @@ apiVersion: rbac.authorization.k8s.io/v1
 metadata:
   name: cephfs-csi-provisioner-role-cfg
   # replace with non-default namespace name
-  namespace: default
+  namespace: ceph-csi
 subjects:
   - kind: ServiceAccount
     name: cephfs-csi-provisioner
     # replace with non-default namespace name
-    namespace: default
+    namespace: ceph-csi
 roleRef:
   kind: Role
   name: cephfs-external-provisioner-cfg
