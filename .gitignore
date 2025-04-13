@@ -10,3 +10,5 @@ gitlab-chart/
 age.agekey
 cilium-values.yaml
 flux-values.yaml
+management-cluster/
+public-cluster/

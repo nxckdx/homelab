@@ -87,7 +87,7 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
     disks {
         disk_size = "32G"
         format = "raw"
-        storage_pool = "local-lvm"
+        storage_pool = "ssd"
         type = "scsi"
     }
 
@@ -107,7 +107,7 @@ source "proxmox-iso" "ubuntu-server-noble-numbat" {
 
     # VM Cloud-Init Settings
     cloud_init = true
-    cloud_init_storage_pool = "local-lvm"
+    cloud_init_storage_pool = "ssd"
 
     # PACKER Boot Commands
     boot_command = [

@@ -1,7 +1,22 @@
 locals {
+  varfile = get_env("TERRAGRUNT_VARFILE", "variables.yaml")
+  
   # YAML-Datei einlesen
-  config = yamldecode(file("${get_repo_root()}/variables.yaml"))
+  config = yamldecode(file("${get_repo_root()}/${local.varfile}"))
+  vm_template = yamldecode(file("${get_repo_root()}/variables-vm_template.yaml"))
   secret = yamldecode(run_cmd("/bin/bash", "-c", "ansible-vault view ${get_repo_root()}/secret.yaml --vault-password-file ${get_repo_root()}/.vault_pass"))
+}
+
+remote_state {
+  backend = "local"
+  config = {
+    path = "${get_parent_terragrunt_dir()}/${path_relative_to_include()}/${local.config.name}/terraform.tfstate"
+  }
+
+  generate = {
+    path = "backend.tf"
+    if_exists = "overwrite"
+  }
 }
 
 terraform {
@@ -24,11 +39,11 @@ packer build \
 -var "proxmox_api_url=${local.secret.proxmox_api.url}" \
 -var "proxmox_api_token_id=${local.secret.proxmox_api.token_id}" \
 -var "proxmox_api_token_secret=${local.secret.proxmox_api.token_secret}" \
--var "template_name=${local.config.vm_template.name}" \
--var "proxmox_node=${local.config.vm_template.node}" \
--var "vmid=${local.config.vm_template.vmid}" \
--var "tags=${local.config.vm_template.tags}" \
--var "template_description=${local.config.vm_template.description}" \
+-var "template_name=${local.vm_template.name}" \
+-var "proxmox_node=${local.vm_template.node}" \
+-var "vmid=${local.vm_template.vmid}" \
+-var "tags=${local.vm_template.tags}" \
+-var "template_description=${local.vm_template.description}" \
 ${get_repo_root()}/infrastructure/packer/proxmox-ubuntu2404/ubuntu-24.04.pkr.hcl || true
 EOT
     ]
@@ -69,6 +84,6 @@ inputs = {
   proxmox_api_token_id = local.secret.proxmox_api.token_id
   proxmox_api_token_secret = local.secret.proxmox_api.token_secret
 
-  vm_template = local.config.vm_template.vmid
+  vm_template = local.vm_template.vmid
   vm = local.config.vm
 }

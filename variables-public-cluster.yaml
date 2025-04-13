@@ -1,70 +1,70 @@
-name: management-cluster
+name: public-cluster
 
 vm:
-  - vmid: 501
-    name: k8s-mgmt01
+  - vmid: 601
+    name: k8s-public01
     cpu: 
-      cores: 8
+      cores: 4
       sockets: 1
       type: host
-    memory: 8192
+    memory: 4096
     tags: "cloud-init;ubuntu2404;kubernetes"
-    node: carlos
+    node: jochen
     disk:
       storage: local-lvm
       size: 32G
     network:
       bridge: vmbr0
-      tag: 100
-      ip: 192.168.100.1/24
-      gateway: 192.168.100.254
-      nameserver: 192.168.100.254
+      tag: 50
+      ip: 192.168.50.1/24
+      gateway: 192.168.50.254
+      nameserver: 192.168.50.254
       searchdomain: local.nickdann.net
     kubernetes_roles:
       - kube_control_plane
       - etcd
       - kube_node
-  - vmid: 502
-    name: k8s-mgmt02
+  - vmid: 602
+    name: k8s-public02
     cpu: 
-      cores: 8
+      cores: 4
       sockets: 1
       type: host
-    memory: 8192
+    memory: 4096
     tags: "cloud-init;ubuntu2404;kubernetes"
-    node: carlos
+    node: jochen
     disk:
       storage: local-lvm
       size: 32G
     network:
       bridge: vmbr0
-      tag: 100
-      ip: 192.168.100.2/24
-      gateway: 192.168.100.254
-      nameserver: 192.168.100.254
+      tag: 50
+      ip: 192.168.50.2/24
+      gateway: 192.168.50.254
+      nameserver: 192.168.50.254
       searchdomain: local.nickdann.net
     kubernetes_roles:
       - kube_control_plane
       - etcd
       - kube_node
-  - vmid: 503
-    name: k8s-mgmt03
+  - vmid: 603
+    name: k8s-public03
     cpu: 
-      cores: 8
+      cores: 4
       sockets: 1
       type: host
-    memory: 8192
+    memory: 4096
     tags: "cloud-init;ubuntu2404;kubernetes"
-    node: carlos
+    node: jochen
     disk:
       storage: local-lvm
       size: 32G
     network:
       bridge: vmbr0
-      tag: 100
-      ip: 192.168.100.3/24
-      gateway: 192.168.100.254
-      nameserver: 192.168.100.254
+      tag: 50
+      ip: 192.168.50.3/24
+      gateway: 192.168.50.254
+      nameserver: 192.168.50.254
       searchdomain: local.nickdann.net
     kubernetes_roles:
       - kube_control_plane
@@ -81,7 +81,7 @@ kubespray_extra_vars:
   kube_vip_enabled: true
   kube_vip_arp_enabled: true
   kube_vip_controlplane_enabled: true
-  kube_vip_address: "192.168.100.100"
+  kube_vip_address: "192.168.50.100"
 
   # Must be set to true, otherwise kube-vip will fail
   # No kube-proxy is installed here
@@ -105,6 +105,6 @@ cilium:
 
 flux:
   git:
-    url: "ssh://git@github.com/nxckdx/homelab.git"
-    path: "./flux/clusters/management/dependencies/system/flux-system"
+    url: "ssh://git@gitea.kube.mgmt.nickdann.net/nxckdx/public-cluster.git"
+    path: "./flux/flux-system"
   private_key_file: /home/nick/.ssh/id_ed25519

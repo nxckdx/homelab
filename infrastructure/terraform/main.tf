@@ -4,7 +4,7 @@ terraform {
   required_providers {
     proxmox = {
       source  = "Telmate/proxmox"
-      version = "3.0.1-rc6"
+      version = "3.0.1-rc8"
     }
   }
 }
@@ -43,6 +43,7 @@ resource "proxmox_vm_qemu" "vm" {
     bios        = "seabios"
     tags        = each.value.tags
     scsihw      = "virtio-scsi-pci"
+    full_clone  = true
 
     network {
         id      = 0

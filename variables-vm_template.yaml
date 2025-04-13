@@ -1,0 +1,5 @@
+name: packer-ubuntu2404
+node: carlos
+vmid: 400
+description: "Noble Numbat"
+tags: "template;ubuntu2404"
