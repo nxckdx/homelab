@@ -4,6 +4,7 @@
 .vault_pass
 .terragrunt-cache/
 kubeconfig
+kubeconfig-mgmt
 gitlab-chart/
 .ansible/
 .vscode/
