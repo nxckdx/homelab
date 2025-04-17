@@ -101,7 +101,7 @@ cilium:
   gatewayAPI:
     enabled: true
   ingressController:
-    enabled: false
+    enabled: true
 
 flux:
   git:

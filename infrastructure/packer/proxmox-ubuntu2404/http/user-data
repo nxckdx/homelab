@@ -19,6 +19,7 @@ autoinstall:
     - ca-certificates
     - gpg
     - jq
+    - nfs-common
   storage:
     layout:
       name: direct
