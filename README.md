@@ -18,6 +18,19 @@ The other clusters are also managed by **FluxCD**, using the **Gitea instance fr
 
 Feel free to reach out if you're curious about the details or want to replicate something similar in your own setup. 😉
 
+## 🗄 Storage & External Infrastructure
+My 3-node Proxmox cluster (`pve`, `carlos`, and `jochen`) also provides **Ceph RBD storage** cluster. 
+
+All VMs in this setup run on **local storage** within each Proxmox node. 
+
+For Kubernetes persistent volumes, I use this **Ceph cluster**. It is intergrated into Kubernetes using the **Ceph-CSI driver** and configured through **FluxCD** as part of the cluster setup. 
+
+In addition, I run a **Raspberry Pi 4** with multiple external hard drives attached. It provides:
+- An **NFS Server** for simple file based storage.
+- A **MinIO instance** as an **S3-compatible object store**, mainly used by services like **Loki** and **Harbor**.
+
+This setup gives the Kubernetes clusters both block and object storage capabilities, using infrastructure fully hosted within my homelab.
+
 ## 🧱 Architecture Overview
 The entire setup is fully automated and built in **four** main steps:
 1. **Packer** creates a base **Ubuntu 24.04** image template.
