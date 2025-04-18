@@ -30,6 +30,8 @@ stringData:
               - if_mib
             name: netgear-switch
             target: 192.168.178.200
+            auth:
+              - custom_v2
         selector:
           prometheus: main
         selfMonitor:
