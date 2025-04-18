@@ -9,7 +9,7 @@ This Management Cluster controls two additional Kubernetes clusters and automati
 - **Infisical**
 - **Prometheus**
 - **Grafana**
-- **Loki**
+- **Thanos**
 - **Harbor**
 - **Authentik**
 - **Gitea**
@@ -27,7 +27,7 @@ For Kubernetes persistent volumes, I use this **Ceph cluster**. It is intergrate
 
 In addition, I run a **Raspberry Pi 4** with multiple external hard drives attached. It provides:
 - An **NFS Server** for simple file based storage.
-- A **MinIO instance** as an **S3-compatible object store**, mainly used by services like **Loki** and **Harbor**.
+- A **MinIO instance** as an **S3-compatible object store**, mainly used by services like **Thanos** and **Harbor**.
 
 This setup gives the Kubernetes clusters both block and object storage capabilities, using infrastructure fully hosted within my homelab.
 
