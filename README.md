@@ -3,7 +3,7 @@ Welcome to my Homelab project!
 
 This repository documents my **Management Kubernetes Cluster**, which runs on a 3-node Proxmox environment (`pve`, `carlos` and `jochen`).
 
-This Management Cluster controle two additional Kubernetes clusters and automatically deploys essential infrastructure components usind **FluxCD**, including:
+This Management Cluster controls two additional Kubernetes clusters and automatically deploys essential infrastructure components usind **FluxCD**, including:
 - **Rancher**
 - **Jenkins**
 - **Infisical**
