@@ -1,0 +1,25 @@
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: prometheus
+  annotations:
+    cert-manager.io/cluster-issuer: "cloudflare-issuer"
+  namespace: monitoring
+spec:
+  rules:
+    - host: prometheus.kube.mgmt.nickdann.net
+      http:
+        paths:
+          - backend:
+              service:
+                port:
+                  number: 9090
+                name: prometheus-operated
+            path: /
+            pathType: Prefix
+  tls:
+    - hosts:
+        - prometheus.kube.mgmt.nickdann.net
+      secretName: prometheus-http-tls
+  ingressClassName: traefik
