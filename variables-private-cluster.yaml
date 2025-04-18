@@ -1,0 +1,110 @@
+name: private-cluster
+
+vm:
+  - vmid: 801
+    name: k8s-private01
+    cpu: 
+      cores: 4
+      sockets: 1
+      type: host
+    memory: 4096
+    tags: "cloud-init;ubuntu2404;kubernetes"
+    node: jochen
+    disk:
+      storage: local-lvm
+      size: 32G
+    network:
+      bridge: vmbr0
+      tag: 200
+      ip: 192.168.200.1/24
+      gateway: 192.168.200.254
+      nameserver: 192.168.200.254
+      searchdomain: local.nickdann.net
+    kubernetes_roles:
+      - kube_control_plane
+      - etcd
+      - kube_node
+  - vmid: 802
+    name: k8s-private02
+    cpu: 
+      cores: 4
+      sockets: 1
+      type: host
+    memory: 4096
+    tags: "cloud-init;ubuntu2404;kubernetes"
+    node: jochen
+    disk:
+      storage: local-lvm
+      size: 32G
+    network:
+      bridge: vmbr0
+      tag: 200
+      ip: 192.168.200.2/24
+      gateway: 192.168.200.254
+      nameserver: 192.168.200.254
+      searchdomain: local.nickdann.net
+    kubernetes_roles:
+      - kube_control_plane
+      - etcd
+      - kube_node
+  - vmid: 803
+    name: k8s-private03
+    cpu: 
+      cores: 4
+      sockets: 1
+      type: host
+    memory: 4096
+    tags: "cloud-init;ubuntu2404;kubernetes"
+    node: jochen
+    disk:
+      storage: local-lvm
+      size: 32G
+    network:
+      bridge: vmbr0
+      tag: 200
+      ip: 192.168.200.3/24
+      gateway: 192.168.200.254
+      nameserver: 192.168.200.254
+      searchdomain: local.nickdann.net
+    kubernetes_roles:
+      - kube_control_plane
+      - etcd
+      - kube_node
+
+kubespray_extra_vars:
+  kube_proxy_remove: true
+
+  kube_network_plugin: none
+  
+  metrics_server_enabled: true
+
+  kube_vip_enabled: true
+  kube_vip_arp_enabled: true
+  kube_vip_controlplane_enabled: true
+  kube_vip_address: "192.168.200.100"
+
+  # Must be set to true, otherwise kube-vip will fail
+  # No kube-proxy is installed here
+  kube_proxy_strict_arp: true 
+
+cilium:
+  ipam:
+    mode: kubernetes
+  kubeProxyReplacement: true
+  hubble:
+    relay:
+      enabled: true
+    ui:
+      enabled: true
+  l2announcements:
+    enabled: true
+  gatewayAPI:
+    enabled: true
+  ingressController:
+    enabled: true
+
+flux:
+  git:
+    url: "ssh://git@gitea.kube.mgmt.nickdann.net/nxckdx/private-cluster.git"
+    path: "./flux/flux-system"
+  private_key_file: /home/nick/.ssh/id_ed25519

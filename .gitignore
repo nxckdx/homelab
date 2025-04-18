@@ -5,6 +5,7 @@
 .terragrunt-cache/
 kubeconfig
 kubeconfig-mgmt
+kubeconfig-public
 gitlab-chart/
 .ansible/
 .vscode/
@@ -13,3 +14,4 @@ cilium-values.yaml
 flux-values.yaml
 management-cluster/
 public-cluster/
+private-cluster/

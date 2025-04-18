@@ -1,58 +1,87 @@
-# **Welcome**
-This is my **Management Kubernetes Cluster** running in my homelab.  
+# 🏡 Homelab: Management Kubernetes Cluster
+Welcome to my Homelab project!
 
-I have two additional Kubernetes clusters running in my **3-node Proxmox environment** (the nodes are called `pve`, `carlos`, and `jochen`). These clusters are managed by the **Management Cluster** described in this repository.
+This repository documents my **Management Kubernetes Cluster**, which runs on a 3-node Proxmox environment (`pve`, `carlos` and `jochen`).
 
-In this cluster, I have documented only **Rancher, Jenkins, Infisical, Prometheus, Grafana, Harbor, Authentik and my private Gitea instance**, which are automatically deployed using **FluxCD**. The other clusters are also managed via **FluxCD**, but they use the **Gitea instance from this Management Cluster** as their repository.
+This Management Cluster controle two additional Kubernetes clusters and automatically deploys essential infrastructure components usind **FluxCD**, including:
+- **Rancher**
+- **Jenkins**
+- **Infisical**
+- **Prometheus**
+- **Grafana**
+- **Loki**
+- **Harbor**
+- **Authentik**
+- **Gitea**
 
-If you're interested in the **detailed setup**, feel free to reach out to me 😉.
+The other clusters are also managed by **FluxCD**, using the **Gitea instance from this Management Cluster** as their repository. 
 
-This setup consists of **four main steps**:  
-1. **Packer** creates an **Ubuntu 24.04** template.  
-2. **Terraform** provisions additional VMs from that template.  
-3. **Docker** sets up the Kubernetes cluster with the help of kubespray.
-4. **Ansible** sets up FluxCD in the Kubernetes Cluster.
+Feel free to reach out if you're curious about the details or want to replicate something similar in your own setup. 😉
 
----
+## 🧱 Architecture Overview
+The entire setup is fully automated and built in **four** main steps:
+1. **Packer** creates a base **Ubuntu 24.04** image template.
+2. **Terraform** provisions VMs using that image.
+3. **Kubespray** (via Docker) bootstraps the Kubernetes Cluster.
+4. **Ansible** installs **Cilium** and **FluxCD** into the cluster, along with custom playbooks.
 
-> [!NOTE]  
-> You can set variables for Kubespray through the **variables.yaml**  
+All of this orchestrated using a single `terragrunt.hcl` file that wraps and coordinates each tool.
 
----
-
-# **Requirements**  
-You need to install the following packages for this project:  
-- **Packer**  
-- **Terraform**  
-- **Ansible**  
-- **Terragrunt** 
+## 🧰 Requirements
+Make sure the following tools are installed:
+- **Packer**
+- **Terraform**
+- **Terragrunt**
+- **Ansible**
 - **Kubectl**
-- **SOPS**  
-- **age**  
 - **Docker**
+- **SOPS**
+- **age**
 
-Make sure to review all the configuration files, including **`terragrunt.hcl`**.  
+## 🧩 Configuration
+This project uses multiple `variables*.yaml` files to manage configurations for different stages and cluster types. These variable files are loaded dynamically using the `TERRAGRUNT_VARFILE` environment variable.
 
-You will also need an **encrypted `secret.yaml`** along with a **`.vault_pass`** file.  
+### Available Variable Files
+- `variables-vm_template.yaml` 
+  - Contains configurations for the **Ubuntu 24.04 VM template**
+- `variables.yaml`
+  - The **default variable file**, used when no custom file is specified. Defines the **Management Cluster** and its core components.
+- `variables.*.yaml`
+  - Additional files (e.g. `variables-private-cluster.yaml`, `variables-public-cluster.yaml`, etc.) define other clusters and are used when explicity passed via `TERRAGRUNT_VARFILE`.
 
-The **`secret.yaml`** must include the API credentials for your Proxmox environment and your age-keys:  
+### Switching Variable Files
+If you want to deployor manage a different cluster, use the corresponding variable file and **reinitialize** Terragrunt before applying:
+```bash
+TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt init -reconfigure
+TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt plan
+TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt apply -auto-approve
+```
+If no `TERRAGRUNT_VARFILE` is specified, the default `variables.yaml` will be used automatically.
 
+## 🔐 Secrets
+Secrets are stored in an encrypted `secret.yaml` file and decrypted using `ansible-vault`.
+
+A `.vault_pass` file is required for decryption.
+
+Example `secret.yaml` structure:
 ```yaml
 proxmox_api:
-    url: "https://carlos.local.nickdann.net:8006/api2/json"
-    token_id: "root@pam!packer"
-    token_secret: "secret"
+  url: "https://carlos.local.nickdann.net:8006/api2/json"
+  token_id: "root@pam!packer"
+  token_secret: "secret"
 
 age:
   private: private
   public: public
 ```
 
-Additionally, review the **`variables.yaml`** file for necessary configurations.
-
----
-
-# **Start the Deployment**
+## 🚀 Deploying the Cluster
+To start the full deployment process, simply run:
 ```bash
-terragrunt apply auto-approve
+terragrunt apply -auto-approve
+```
+Or, when using a custom variable file:
+```bash
+TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt init -reconfigure
+TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt apply -auto-approve
 ```
