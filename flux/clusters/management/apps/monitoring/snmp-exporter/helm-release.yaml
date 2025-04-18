@@ -13,7 +13,7 @@ spec:
         namespace: flux-system
       version: "9.2.1"
   interval: 1h0m0s
-  timeout: 20m0s
+  timeout: 3m0s
   valuesFrom:
     - kind: Secret
       name: snmp-exporter-values
