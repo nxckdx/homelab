@@ -12,6 +12,12 @@ stringData:
         auths:
           custom_community:
             community: asdfasdf
+        modules:
+          if_mib_custom:
+            auth: custom_community
+            walk:
+              - 1.3.6.1.2.1.1
+              - 1.3.6.1.2.1.2
       serviceMonitor:
         enabled: true
         relabelings:
@@ -19,7 +25,7 @@ stringData:
             targetLabel: instance
         params:
           - module:
-              - if_mib
+              - if_mib_custom
             name: netgear-switch
             target: 192.168.178.200
         selector:
@@ -28,7 +34,8 @@ stringData:
           enabled: true
           additionalMetricsRelabels: {}
           additionalRelabeling: []
-          labels: {}
+          labels:
+            prometheus: main
           path: /metrics
           scheme: http
           tlsConfig: {}
