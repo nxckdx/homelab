@@ -36,6 +36,8 @@ stringData:
               - if_mib
             name: hp-drucker
             target: 192.168.178.46
+            auth:
+              - public_v1
         selector:
           prometheus: main
         selfMonitor:
