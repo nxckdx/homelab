@@ -50,7 +50,7 @@ This project uses multiple `variables*.yaml` files to manage configurations for 
   - Additional files (e.g. `variables-private-cluster.yaml`, `variables-public-cluster.yaml`, etc.) define other clusters and are used when explicity passed via `TERRAGRUNT_VARFILE`.
 
 ### Switching Variable Files
-If you want to deployor manage a different cluster, use the corresponding variable file and **reinitialize** Terragrunt before applying:
+If you want to deploy or manage a different cluster, use the corresponding variable file and **reinitialize** Terragrunt before applying:
 ```bash
 TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt init -reconfigure
 TERRAGRUNT_VARFILE=variables-private-cluster.yaml terragrunt plan
