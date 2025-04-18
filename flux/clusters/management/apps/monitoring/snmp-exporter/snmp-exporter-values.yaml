@@ -32,6 +32,10 @@ stringData:
             target: 192.168.178.200
             auth:
               - custom_v2
+          - module:
+              - if_mib
+            name: hp-drucker
+            target: 192.168.178.46
         selector:
           prometheus: main
         selfMonitor:
