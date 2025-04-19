@@ -32,7 +32,7 @@ spec:
               name: cloudflare-api-token
               key: api-token
         - name: DOMAINS
-          value: "mail.nickdann.net"
+          value: "jellyfin.nickdann.net"
         - name: PROXIED
           value: "false"
         securityContext:
