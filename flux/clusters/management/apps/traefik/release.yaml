@@ -11,7 +11,7 @@ spec:
         kind: HelmRepository
         name: traefik
         namespace: flux-system
-      version: "34.5.0"
+      version: "35.0.0"
   interval: 1h0m0s
   timeout: 20m0s
   values:
@@ -49,3 +49,13 @@ spec:
             to: websecure
             scheme: https
             permanent: true
+    metrics:
+      prometheus:
+        service:
+          enabled: true
+          annotations: {}
+        serviceMonitor:
+          enabled: true
+          namespace: monitoring
+          additionalLabels:
+            prometheus: main
