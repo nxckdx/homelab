@@ -88,6 +88,23 @@ age:
   public: public
 ```
 
+## 🏛️ Centralized Certificate Management
+
+All clusters in this homelab are using a **central cert-manager**, which runs exclusively in the management cluster.
+
+- TLS certificates (e.g. for Ingress, Services) are issued via `cert-manager`.
+- These certificates are **automatically synced into Infisical** using an `InfisicalPushSecret`.
+- In remote clusters, the certificates are **pulled from Infisical** using `InfisicalPullSecret` CRDs.
+- No cert-manager needs to run in the remote clusters.
+
+This setup ensures:
+- ✅ Automated renewal and rotation of certificates
+- ✅ Centralized certificate issuing and visibility
+- ✅ Zero manual operations across clusters
+- ✅ GitOps-managed secrets lifecycle
+
+This allows full TLS management across all environments – from one place, without touching anything once it's deployed.
+
 ## 🚀 Deploying the Cluster
 To start the full deployment process, simply run:
 ```bash
