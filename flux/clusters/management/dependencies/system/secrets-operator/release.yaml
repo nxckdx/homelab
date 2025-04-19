@@ -1,0 +1,18 @@
+apiVersion: helm.toolkit.fluxcd.io/v2
+kind: HelmRelease
+metadata:
+  name: secrets-operator
+  namespace: secrets-operator
+spec:
+  chart:
+    spec:
+      chart: secrets-operator
+      sourceRef:
+        kind: HelmRepository
+        name: infisical
+        namespace: flux-system
+      version: "0.9.1"
+  interval: 1h0m0s
+  timeout: 20m0s
+  values:
+    installCRDs: false

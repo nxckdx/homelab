@@ -43,12 +43,23 @@ spec:
       external:
         addr: "redis.redis.svc.cluster.local:6379"
     persistence:
+      imageChartStorage:
+        # must be set true, because of MinIO
+        disableredirect: true
+        type: s3
+        s3:
+          existingSecret: "minio-secret"
+          bucket: harbor
+          regionendpoint: https://minio.local.nickdann.net
+          secure: false
+          v4auth: true
+          rootdirectory: /
+          encrypt: false
       persistentVolumeClaim:
-        registry:
-          storageClass: csi-rbd-sc
-          size: 30Gi
         jobservice:
           jobLog:
             storageClass: csi-rbd-sc
+            size: 5Gi
         trivy:
           storageClass: csi-rbd-sc
+          size: 10Gi
