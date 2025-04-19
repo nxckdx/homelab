@@ -1,0 +1,17 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: public-services-https-cert
+  namespace: public-cluster
+spec:
+  secretName: public-services-https-cert
+  dnsNames:
+    - jellyfin.nickdann.net
+    - vaultwarden.nickdann.net
+  issuerRef:
+    group: cert-manager.io
+    kind: ClusterIssuer
+    name: cloudflare-issuer
+  usages:
+    - digital signature
+    - key encipherment
