@@ -1,3 +1,7 @@
+> [!IMPORTANT]
+> This GitHub repository mainly serves as an archive of my earlier homelab setup. While it's no longer actively maintained, the entire environment can be re-deployed at any time using just a few commands, thanks to tools like Terraform and Ansible.
+> I've since migrated my full homelab to Talos Linux, with the current configuration managed in a private Git repository. I’ve decided not to make that repo public (at least for now), but I’d be happy to provide more details if needed.
+
 # 🏡 Homelab: Management Kubernetes Cluster
 Welcome to my Homelab project!
 
